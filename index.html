@@ -759,7 +759,7 @@
     <!-- Top Bar -->
     <header class="main-header">
         <div class="brand">
-            <div class="logo-icon"><img src="images/logo.png" alt="Logo" style="height: 20px;"></div> 
+            <div class="logo-icon"><img src="GF_LMS/images/logo.png" alt="Logo" style="height: 20px;"></div> 
             <span class="brand-text"> | 多模态视觉融合应用</span>
         </div>
         <div class="user-profile">
@@ -803,14 +803,14 @@
                         title: "台湾西部彰化县进入警备状态",
                         time: "2分钟前",
                         threat: "高等威胁",
-                        image: "images/6.png",
+                        image: "GF_LMS/images/6.png",
                         desc: "台湾东部战区开展跨昼夜联合演训，结合 IGSO卫星拍摄影像，无侦-7 无人机拍摄视频影像及雷达探测信号，台湾西部彰化县进入警备状态。"
                     },
                     {
                         title: "日本西南岛屿军事演练，介入台海威胁加剧",
                         time: "10分钟前",
                         threat: "中等威胁",
-                        image: "images/1.png",
+                        image: "GF_LMS/images/1.png",
                         desc: "日本首相高市早苗近期发表的涉台言论，日本政府在台海问题上频频发声，试图将台海问题与自身安全挂钩。日本海上自卫队还与美军频繁开展联合军演，军事力量不容忽视。"
                     }
                 ];
@@ -913,7 +913,7 @@
 
                         <!-- Image Feed -->
                         <div class="feed-container">
-                            <img src="images/实时监控.png" alt="Live Feed">
+                            <img src="GF_LMS/images/实时监控.png" alt="Live Feed">
                             <!-- Detection Box -->
                             <div class="detect-box"></div>
                         </div>
@@ -1095,7 +1095,7 @@
 
                 <!-- Image/Gallery Placeholder -->
                 <div style="width: 100%; height: 160px; background-color: #334155; margin-bottom: 12px; overflow: hidden; position: relative; display: flex; align-items: center; justify-content: center;">
-                     <img id="intelImage" src="images/6.png" alt="CCTV" style="width: 100%; height: 100%; object-fit: cover;" onerror="this.style.display='none'; this.nextElementSibling.style.display='block'">
+                     <img id="intelImage" src="GF_LMS/images/6.png" alt="CCTV" style="width: 100%; height: 100%; object-fit: cover;" onerror="this.style.display='none'; this.nextElementSibling.style.display='block'">
                      <div id="intelGallery" style="display:none; width:100%; height:100%; overflow-x:auto; overflow-y:hidden; display:flex; gap:0; scroll-snap-type:x mandatory;">
                      </div>
                      <button id="galleryPrevBtn" onclick="galleryPrev()" style="display:none; position:absolute; left:8px; top:50%; transform:translateY(-50%); width:24px; height:24px; border:none; border-radius:4px; background:rgba(0,0,0,0.5); color:white; cursor:pointer;"><i class="fa-solid fa-chevron-left" style="font-size:12px;"></i></button>
@@ -1311,10 +1311,10 @@
                             <div class="info-label">多媒体资料</div>
                             <div class="info-value">
                                 <div class="media-gallery" id="modal-media-gallery">
-                                    <div class="media-item"><img src="images/6.png" alt="现场图1"></div>
-                                    <div class="media-item"><img src="images/2.png" alt="现场图2"></div>
-                                    <div class="media-item"><img src="images/3.png" alt="现场图3"></div>
-                                    <div class="media-item"><img src="images/4.png" alt="现场图4"></div>
+                                    <div class="media-item"><img src="GF_LMS/images/6.png" alt="现场图1"></div>
+                                    <div class="media-item"><img src="GF_LMS/images/2.png" alt="现场图2"></div>
+                                    <div class="media-item"><img src="GF_LMS/images/3.png" alt="现场图3"></div>
+                                    <div class="media-item"><img src="GF_LMS/images/4.png" alt="现场图4"></div>
                                 </div>
                             </div>
                         </div>
@@ -2095,7 +2095,7 @@
                     title: "东部战区美国两艘舰艇过航台湾海峡",
                     time: "刚刚",
                     threat: "高等威胁",
-                    image: "images/船.png",
+                    image: "GF_LMS/images/船.png",
                     desc: "东部战区卫星传回SAR影像中拍摄到两艘舰艇出现在冲绳岛附近海域25°15'38\"N 125°00'11\"E，并正在航向台湾海峡，两艘美国军舰初步识别为驱逐舰和海洋测量船。"
                 };
 
@@ -2491,7 +2491,7 @@
                 title: '无人机回传：两舰型号识别与威胁评估更新',
                 time: '刚刚',
                 threat: '中等威胁',
-                image: 'images/无人机拍摄船.png',
+                image: 'GF_LMS/images/无人机拍摄船.png',
                 images: ['无人机拍摄船.png','船.png'],
                 desc: '系统通过视觉识别模型识别军舰型号，并与卫星图像和信号情报进行融合，确认目标为“鲍迪奇”号海洋测量船与拉尔夫·约翰逊号驱逐舰，预测概率提高至 95%，威胁评估从高降低至中等。'
             };
@@ -2847,3 +2847,4 @@
             map.on('click', onAddWaypoint);
         }
     </script>
+
