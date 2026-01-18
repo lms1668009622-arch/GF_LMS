@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
@@ -963,6 +963,7 @@
                         <button onclick="enableMapPicking()" style="background: #475569; border: 1px solid #5c6f8a; color: white; border-radius: 4px; padding: 0 8px; cursor: pointer;">
                             <i class="fa-solid fa-location-crosshairs"></i>
                         </button>
+                        <button id="edit-path-btn" onclick="toggleFlightPathEditing()" style="background: #475569; border: 1px solid #5c6f8a; color: white; border-radius: 4px; padding: 0 8px; cursor: pointer;">添加拐点</button>
                     </div>
                 </div>
                 <div class="uav-form-group">
@@ -2330,6 +2331,7 @@
             // Update Start/Return Coords and Draw Path
             updateFlightPath(id);
             window._lastSelectedUav = id;
+            if (window._fpEditingEnabled) startFlightPathEditing(id);
         }
 
         function updateFlightPath(uavId) {
@@ -2584,6 +2586,7 @@
          const returnCoordsInput = document.getElementById('uav-return-coords');
          let selectionLayerGroup = L.layerGroup().addTo(map);
          let flightPathLayerGroup = L.layerGroup().addTo(map);
+         let waypointLayerGroup = L.layerGroup().addTo(map);
          let isPickingMode = false;
          let currentTargetLat = 24.0589;
          let currentTargetLng = 120.4333;
@@ -2810,15 +2813,15 @@
 
     </script>
     <script>
-            window._uavWaypoints = [];
-            enableFlightPathEditing('uav-01');
-        function enableFlightPathEditing(uavId) {
-            if (!window._waypointMarkers) window._waypointMarkers = [];
+        window._uavWaypoints = [];
+        window._waypointMarkers = [];
+        window._fpEditingEnabled = false;
+        function startFlightPathEditing(uavId) {
             function addMarker(lat, lng) {
                 const m = L.marker([lat, lng], {
                     draggable: true,
                     icon: L.divIcon({ className: 'wp-marker', html: '<div style="width:10px;height:10px;border-radius:50%;background:#f59e0b;border:2px solid white;"></div>', iconSize: [14,14], iconAnchor: [7,7] })
-                }).addTo(flightPathLayerGroup);
+                }).addTo(waypointLayerGroup);
                 m.on('drag', () => {
                     const pos = m.getLatLng();
                     const idx = window._waypointMarkers.indexOf(m);
@@ -2828,7 +2831,7 @@
                 m.on('contextmenu', () => {
                     const idx = window._waypointMarkers.indexOf(m);
                     if (idx >= 0) {
-                        flightPathLayerGroup.removeLayer(m);
+                        waypointLayerGroup.removeLayer(m);
                         window._waypointMarkers.splice(idx,1);
                         window._uavWaypoints.splice(idx,1);
                         updateFlightPath(uavId);
@@ -2837,7 +2840,9 @@
                 window._waypointMarkers.push(m);
             }
             function onAddWaypoint(e) {
-                const { lat, lng } = e.latlng;
+                if (!window._fpEditingEnabled || isPickingMode) return;
+                const lat = e.latlng.lat;
+                const lng = e.latlng.lng;
                 window._uavWaypoints.push([lat, lng]);
                 addMarker(lat, lng);
                 updateFlightPath(uavId);
@@ -2846,8 +2851,20 @@
             window._fpAddHandler = onAddWaypoint;
             map.on('click', onAddWaypoint);
         }
+        function stopFlightPathEditing() {
+            if (window._fpAddHandler) { map.off('click', window._fpAddHandler); window._fpAddHandler = null; }
+            window._fpEditingEnabled = false;
+        }
+        function toggleFlightPathEditing() {
+            const uavId = document.getElementById('selected-uav-id').value || window._lastSelectedUav || 'uav-01';
+            const btn = document.getElementById('edit-path-btn');
+            if (!window._fpEditingEnabled) {
+                window._fpEditingEnabled = true;
+                startFlightPathEditing(uavId);
+                if (btn) { btn.textContent = '结束编辑'; btn.style.background = '#f59e0b'; btn.style.color = '#111827'; }
+            } else {
+                stopFlightPathEditing();
+                if (btn) { btn.textContent = '添加拐点'; btn.style.background = '#3b82f6'; btn.style.color = 'white'; }
+            }
+        }
     </script>
-
-
-
-
