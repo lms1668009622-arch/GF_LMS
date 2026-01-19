@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>| 多模态视觉融合应用 </title>
+    <title>| 战场情报快判AI系统 </title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Leaflet CSS -->
@@ -77,7 +77,7 @@
         /* Monitor Card Styles (Existing Updated) */
         .monitor-card {
             width: 341px;
-            height: 263px;
+            height: 360px;
             background: rgba(21, 44, 81, 0.79);
             border-radius: 4px;
             border: 1px solid var(--LineLine-color-border-2, #E2E8F0);
@@ -569,6 +569,7 @@
             border: 1px solid #5c6f8a;
             flex: 1;
             width: 100%;
+            min-height: 220px;
         }
 
         .feed-container img {
@@ -645,7 +646,7 @@
             to { opacity: 1; transform: translateX(0); }
         }
         .modal-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); display: none; align-items: center; justify-content: center; z-index: 3000; }
-        .modal-container { width: 1140px; max-width: 95vw; max-height: 88vh; background: #1e293b; border: 1px solid #475569; border-radius: 8px; color: #e2e8f0; box-shadow: 0 20px 25px -5px rgba(0,0,0,0.5); display: flex; flex-direction: column; }
+        .modal-container { width: 1140px; max-width: 95vw; max-height: 70vh; background: #1e293b; border: 1px solid #475569; border-radius: 8px; color: #e2e8f0; box-shadow: 0 20px 25px -5px rgba(0,0,0,0.5); display: flex; flex-direction: column; }
         .modal-header { padding: 12px 16px; border-bottom: 1px solid #475569; }
         .modal-header-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
         .modal-title { display: flex; align-items: center; gap: 8px; font-weight: bold; color: #ffffff; }
@@ -654,7 +655,7 @@
         .modal-tabs { display: flex; gap: 10px; }
         .tab-item { padding: 6px 10px; border-radius: 4px; font-size: 12px; cursor: pointer; color: #cbd5e1; border: 1px solid transparent; }
         .tab-item.active { background: rgba(59,130,246,0.15); border-color: #3b82f6; color: #fff; }
-        .modal-body { padding: 16px; display: block; }
+        .modal-body { padding: 16px; display: block; overflow-y: auto; }
         .detail-section { background: rgba(255,255,255,0.05); border: 1px solid #475569; border-radius: 6px; padding: 12px; }
         .tab-content { display: none; }
         .tab-content.active { display: grid; grid-template-columns: minmax(420px, 500px) 1.6fr; gap: 14px; }
@@ -727,19 +728,21 @@
         .card-content h4 { margin: 0; font-size: 14px; color: #e2e8f0; }
         .card-content p { margin: 0; font-size: 12px; color: #94a3b8; }
         .card-content .sub-text { margin-top: 6px; font-size: 12px; color: #60a5fa; }
-        .progress-bar { width: 100%; height: 8px; background: rgba(148,163,184,0.2); border: 1px solid rgba(148,163,184,0.3); border-radius: 6px; margin: 6px 0; overflow: hidden; }
-        .progress-bar .fill { height: 100%; background: #3b82f6; color: #ffffff; font-size: 10px; line-height: 8px; text-align: right; padding-right: 6px; border-radius: 6px; }
+        .progress-bar { display: none; }
+        .progress-bar .fill { display: none; }
         .step-details-inline { display: flex; flex-direction: column; gap: 8px; }
         .detail-item { display: flex; gap: 8px; align-items: flex-start; }
         .d-dot { width: 8px; height: 8px; border-radius: 50%; background: #3b82f6; margin-top: 6px; }
         .d-content strong { color: #e2e8f0; font-size: 12px; }
         .d-content p { color: #94a3b8; font-size: 12px; margin: 2px 0 0; }
-        .step-connector { display: flex; align-items: center; justify-content: center; color: #94a3b8; margin-top: 8px; }
+        .step-connector { display: none; }
         .result-card { background: rgba(239,68,68,0.12); border-color: #ef4444; }
         .prediction-list { list-style: none; padding: 0; margin: 6px 0 0; display: flex; flex-direction: column; gap: 6px; color: #e2e8f0; font-size: 12px; }
         .text-red { color: #ef4444; }
         .text-orange { color: #f59e0b; }
         .text-blue { color: #3b82f6; }
+        .sub-header { position: relative; display: flex; align-items: center; padding: 6px 12px; }
+        .page-title { position: absolute; left: 50%; transform: translateX(-50%); font-weight: bold; color: #ffffff; }
         @media (max-width: 1200px) {
             .modal-container { width: 90vw; }
             .tab-content.active { grid-template-columns: minmax(300px, 380px) 1fr; }
@@ -760,7 +763,7 @@
     <header class="main-header">
         <div class="brand">
             <div class="logo-icon"><img src="images/logo.png" alt="Logo" style="height: 20px;"></div> 
-            <span class="brand-text"> | 多模态视觉融合应用</span>
+            <span class="brand-text"> | 战场情报快判AI系统</span>
         </div>
         <div class="user-profile">
             <div class="avatar">Z</div>
@@ -781,9 +784,6 @@
             
         </div>
         <div class="page-title">指挥席</div>
-        <div class="alert-status">
-            <span class="badge-red">一级战备等级</span>
-        </div>
     </div>
 
     <div class="map-container">
@@ -811,7 +811,7 @@
                         time: "10分钟前",
                         threat: "中等威胁",
                         image: "images/1.png",
-                        desc: "日本首相高市早苗近期发表的涉台言论，日本政府在台海问题上频频发声，试图将台海问题与自身安全挂钩。日本海上自卫队还与美军频繁开展联合军演，军事力量不容忽视。"
+                        desc: "日本首相高市早苗近期发表的涉台言论，日本政府在台海问题上频频发声，试图与自身安全挂钩。日本海上自卫队还与美军频繁开展联合军演，军事力量不容忽视。"
                     }
                 ];
                 let currentIntelIndex = 0;
@@ -821,6 +821,7 @@
                     document.getElementById('intelTitle').textContent = data.title;
                     document.getElementById('intelTime').textContent = data.time;
                     const imgEl = document.getElementById('intelImage');
+                    const solBtn = document.getElementById('showSolutionBtn');
                     const gallery = document.getElementById('intelGallery');
                     const prevBtn = document.getElementById('galleryPrevBtn');
                     const nextBtn = document.getElementById('galleryNextBtn');
@@ -846,6 +847,12 @@
                         if ((data.threat || '').includes('高')) bg = '#ef4444';
                         if ((data.threat || '').includes('低')) bg = '#10b981';
                         badge.style.backgroundColor = bg;
+                    }
+                    if (solBtn) {
+                        const allowed = '东部战区美国两艘舰艇过航台湾海峡';
+                        const enabled = data.title === allowed;
+                        solBtn.style.opacity = enabled ? '1' : '0.6';
+                        solBtn.style.cursor = enabled ? 'pointer' : 'not-allowed';
                     }
                     const detailLink = document.getElementById('intelDetailLink');
                     if (detailLink) detailLink.style.display = 'inline';
@@ -897,23 +904,31 @@
                              
                              <div class="info-row">
                                  <span class="info-label">地理位置 :</span>
-                                 <span class="info-value">520 复兴路 Lukang 彰化县</span>
+                                 <span class="info-value" id="monitor-location-name">520 复兴路 Lukang 彰化县</span>
                              </div>
                              
                              <div class="info-row">
                                  <span class="info-label"></span>
-                                 <span class="info-value">24°03'32"N &nbsp; 120°26'00"E &nbsp; 地面海拔 5.68米</span>
+                                 <span class="info-value" id="monitor-location-coords">24°03'32"N &nbsp; 120°26'00"E &nbsp; 地面海拔 5.68米</span>
                              </div>
 
                              <div class="info-row" style="margin-top: 8px;">
                                  <span class="info-label">威胁程度 :</span>
                                  <span class="badge-green">无威胁</span>
                              </div>
+                             <div class="info-row" style="margin-top: 8px;">
+                                 <span class="info-label">监控点 :</span>
+                                 <span class="info-value"><select id="monitor-location-select" style="background: rgba(0,0,0,0.2); color: #e2e8f0; border: 1px solid #475569; border-radius: 4px; padding: 2px 6px; font-size: 12px;"></select></span>
+                             </div>
+                             <div class="info-row">
+                                 <span class="info-label">摄像头 :</span>
+                                 <span class="info-value"><select id="monitor-camera-select" style="background: rgba(0,0,0,0.2); color: #e2e8f0; border: 1px solid #475569; border-radius: 4px; padding: 2px 6px; font-size: 12px;"></select></span>
+                             </div>
                         </div>
 
                         <!-- Image Feed -->
                         <div class="feed-container">
-                            <img src="images/实时监控.png" alt="Live Feed">
+                            <img id="liveFeedImage" src="images/实时监控.png" alt="Live Feed">
                             <!-- Detection Box -->
                             <div class="detect-box"></div>
                         </div>
@@ -950,7 +965,7 @@
             <!-- Bottom Row: UAV Dispatch -->
             
             <!-- Bottom Row: UAV Dispatch -->
-            <div class="uav-card" id="uavCard" style="position: absolute; top: 280px; left: 0;">
+            <div class="uav-card" id="uavCard" style="position: absolute; top: 20px; left: 0; display: none;">
                 <div class="uav-header">
                     <svg t="1768383611280" class="icon" viewBox="0 0 2048 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="11272" width="28" height="14" style="vertical-align: middle; fill: white; margin-right: 5px;"><path d="M1463.217231 276.637538c-4.883692 4.844308-12.209231 4.844308-17.132308 4.844308-9.806769 0-17.132308-4.844308-24.457846-12.130461l-36.706462-48.521847c-9.806769-12.130462-7.325538-31.547077 7.325539-41.275076a28.987077 28.987077 0 0 1 41.629538 7.286153l36.706462 48.561231c9.728 14.572308 7.325538 31.507692-7.364923 41.235692z m-97.870769 0c-4.883692 4.844308-12.209231 4.844308-17.132308 4.844308-9.806769 0-17.132308-4.844308-24.457846-12.130461l-36.706462-48.521847c-9.846154-12.130462-7.325538-31.547077 7.325539-41.275076a28.987077 28.987077 0 0 1 41.590154 7.286153l36.706461 48.561231c9.767385 14.572308 7.325538 31.507692-7.364923 41.235692z m-105.235693 0c-4.883692 4.844308-12.209231 4.844308-17.092923 4.844308-9.806769 0-17.132308-4.844308-24.497231-12.130461l-36.667077-48.521847c-9.806769-12.130462-7.364923-31.547077 7.325539-41.275076a28.987077 28.987077 0 0 1 41.590154 7.286153l36.706461 48.561231c9.767385 14.572308 7.325538 31.507692-7.364923 41.235692z m-237.331692 524.169847a54.075077 54.075077 0 0 1-53.838769-53.405539c0-29.144615 24.497231-53.366154 53.838769-53.366154s53.799385 24.260923 53.799385 53.366154c2.481231 29.144615-21.976615 53.405538-53.799385 53.405539zM805.021538 281.481846c-4.883692 0-12.209231-2.402462-17.132307-4.844308-12.209231-9.688615-14.651077-26.702769-7.286154-41.235692l36.706461-48.561231c9.767385-12.130462 26.899692-14.572308 41.590154-7.286153 12.209231 9.728 14.651077 26.702769 7.325539 41.275076l-36.706462 48.521847a29.932308 29.932308 0 0 1-24.457846 12.130461z m-46.473846-60.652308l-36.667077 48.521847c-4.923077 7.286154-14.690462 12.130462-24.49723 12.130461a45.686154 45.686154 0 0 1-17.132308-4.844308c-12.209231-9.688615-14.690462-26.702769-7.325539-41.235692l36.706462-48.561231c9.767385-12.130462 26.899692-14.572308 41.550769-7.286153 14.729846 9.728 17.171692 29.144615 7.364923 41.275076z m308.342154 303.340308h17.092923v101.888h-122.328615V524.209231h105.235692zM660.637538 220.829538l-36.706461 48.521847c-4.883692 7.286154-14.651077 12.130462-24.418462 12.130461a45.686154 45.686154 0 0 1-17.171692-4.844308c-12.209231-9.688615-14.690462-26.702769-7.325538-41.235692l36.706461-48.561231c9.767385-12.130462 26.899692-14.572308 41.550769-7.286153 14.729846 9.728 17.171692 29.144615 7.364923 41.275076zM2006.409846 7.286154h-225.083077c-22.055385 0-41.590154 19.416615-41.590154 41.235692 0 21.858462 19.574154 41.275077 41.590154 41.275077h83.140923v80.068923h-141.863384L1235.652923 9.688615C1218.520615 4.844308 1198.946462 0 1179.332923 0h-308.263385c-19.574154 0-39.148308 2.441846-56.280615 9.688615L327.876923 169.865846H183.532308V89.796923h83.180307c22.016 0 41.590154-19.416615 41.590154-41.275077 0-21.819077-19.574154-41.235692-41.590154-41.235692H41.590154C19.574154 7.286154 0 26.702769 0 48.521846 0 70.380308 19.574154 89.796923 41.590154 89.796923h83.180308v80.068923h-22.055385c-31.744 0-58.683077 26.702769-58.683077 58.249846V271.753846c0 38.833231 31.822769 70.380308 70.931692 70.380308h342.567385V948.775385c0 21.858462 17.171692 38.833231 39.187692 38.83323h24.457846c7.364923 0 12.209231-4.844308 12.209231-12.130461L575.015385 342.173538h48.915692c26.939077 0 51.396923 16.935385 61.203692 41.235693 9.767385 24.260923 34.264615 41.235692 61.164308 41.235692h80.738461v38.833231c0 31.547077 26.899692 58.249846 58.683077 58.249846h17.171693v101.927385h-24.457846a27.057231 27.057231 0 0 0-26.939077 26.702769v177.112615c0 14.572308 12.248615 26.702769 26.939077 26.702769l291.170461 21.858462c14.690462 0 24.457846-17.014154 24.457846-31.547077v-191.724308c0-14.572308-12.209231-26.702769-26.939077-26.702769h-24.457846V524.209231H1174.449231c2.481231 0 2.481231 0 4.923077-2.441846 2.481231 0 4.923077 0 7.325538-2.441847 2.481231 0 2.481231-2.402462 4.883692-2.402461 2.481231 0 2.481231-2.441846 4.923077-2.441846 2.441846-2.402462 4.923077-2.402462 4.923077-4.844308l2.402462-2.441846c2.481231-2.402462 2.481231-4.844308 4.923077-4.844308l2.402461-2.441846c2.481231-2.402462 2.481231-4.844308 4.923077-7.246769 0 0 0-2.441846 2.441846-2.441846 0-2.441846 2.481231-4.844308 2.481231-7.286154v-50.963692h80.738462c26.899692 0 51.357538-16.974769 61.124923-41.235693 9.846154-24.260923 34.264615-41.275077 61.203692-41.275077H1472.984615l39.187693 633.383385c0 7.246769 7.325538 12.130462 12.20923 12.130461h24.497231a38.518154 38.518154 0 0 0 39.148308-38.83323V349.420308h342.528c39.148308 0 70.971077-31.507692 70.971077-70.340923v-43.716923c0-12.130462-2.481231-21.819077-9.767385-31.507693-7.364923-9.728-14.690462-17.014154-24.497231-21.858461-7.325538-2.441846-14.651077-4.844308-22.055384-4.844308h-21.976616V97.083077h83.180308c22.055385 0 41.590154-19.416615 41.590154-41.275077 0-29.144615-19.534769-48.521846-41.590154-48.521846z" fill="white" p-id="11273"></path></svg>
                     无人机侦察派遣
@@ -963,7 +978,7 @@
                         <button onclick="enableMapPicking()" style="background: #475569; border: 1px solid #5c6f8a; color: white; border-radius: 4px; padding: 0 8px; cursor: pointer;">
                             <i class="fa-solid fa-location-crosshairs"></i>
                         </button>
-                        <button id="edit-path-btn" onclick="toggleFlightPathEditing()" style="background: #475569; border: 1px solid #5c6f8a; color: white; border-radius: 4px; padding: 0 8px; cursor: pointer;">添加拐点</button>
+                        <button id="edit-path-btn" onclick="toggleFlightPathEditing()" style="background: #475569; border: 1px solid #5c6f8a; color: white; border-radius: 4px; padding: 0 8px; cursor: pointer;">添加编辑点</button>
                     </div>
                 </div>
                 <div class="uav-form-group">
@@ -1070,14 +1085,14 @@
             </div>
 
             <!-- Content Body -->
-            <div class="monitor-body" style="padding: 15px; color: white;">
+            <div class="monitor-body" style="padding: 15px; color: white; position: relative;">
                 <!-- Title & Time -->
-                <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 8px;">
+                <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 5px;">
                     <h3 id="intelTitle" style="margin: 0; font-size: 18px; font-weight: 500;">台湾西部彰化县进入警备状态</h3>
                 </div>
 
                 <!-- Info Row -->
-                <div style="margin-bottom: 8px; font-size: 13px; color: #94a3b8;">
+                <div style="margin-bottom: 5px; font-size: 13px; color: #94a3b8;">
                     来源： <span style="color: #e2e8f0;">情报中心推送</span>
                     <span id="intelTime" style="color: #94a3b8; font-size: 12px; margin-left: 10px;">2分钟前</span>
                 </div>
@@ -1114,12 +1129,15 @@
                 </div>
 
                 <!-- Description Box -->
-                <div style="border: 1px solid #475569; padding: 10px; border-radius: 4px; background: rgba(15, 23, 42, 0.6); position: relative; min-height: 80px;">
-                    <p id="intelDesc" style="margin: 0; font-size: 13px; line-height: 1.6; color: #e2e8f0; text-align: justify; margin-bottom: 20px;">
+                <div style="border: 1px solid #475569; padding: 10px; border-radius: 4px; background: rgba(15, 23, 42, 0.6); position: relative; min-height: 60px; margin-bottom: 40px;">
+                    <p id="intelDesc" style="margin: 0; font-size: 13px; line-height: 1.6; color: #e2e8f0; text-align: justify; margin-bottom: 6px;">
                         台湾东部战区开展跨昼夜联合演训，结合 IGSO卫星拍摄影像，无侦-7 无人机拍摄视频影像及雷达探测信号，台湾西部彰化县进入警备状态。
                     </p>
-                    <a id="intelDetailLink" href="javascript:void(0)" onclick="openModal()" style="position: absolute; bottom: 8px; right: 10px; color: #3b82f6; text-decoration: none; font-size: 13px;">&gt;详情</a>
+                    <a id="intelDetailLink" href="javascript:void(0)" onclick="openModal()" style="position: absolute; bottom: 10px; right: 10px; color: #3b82f6; text-decoration: none; font-size: 13px;">&gt;详情</a>
                 </div>
+                <button id="showSolutionBtn" onclick="showSolutionCard()" style="position: absolute; right: 15px; bottom: 18px; background: #3b82f6; border: none; color: white; border-radius: 4px; padding: 8px 10px; font-size: 12px; cursor: pointer; display: inline-flex; align-items: center; gap: 6px;">
+                    <i class="fa-solid fa-clipboard-check" style="font-size: 12px;"></i> 方案推荐
+                </button>
             </div>
         </div>
 
@@ -1416,20 +1434,10 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div style="text-align: center; color: #cbd5e1; margin-bottom: 10px;">
-                                    <i class="fa-solid fa-arrow-down-long" style="font-size: 24px;"></i>
+                                <div style="text-align: center; margin-bottom: 10px;">
+                                    <button style="background: #475569; border: 1px solid #5c6f8a; color: white; border-radius: 4px; padding: 4px 8px; font-size: 12px; cursor: pointer;">查看工作流</button>
                                 </div>
-                                <div class="trace-card fusion-card" id="trace-fusion-card">
-                                    <div class="fusion-dot-right"></div>
-                                    <div class="t-icon icon-fusion"><i class="fa-solid fa-brain"></i></div>
-                                    <div class="t-title" style="font-size: 18px;">多模态情报融合引擎</div>
-                                    <div class="t-desc">对多源异构数据进行时空对齐、交叉验证与关联分析。</div>
-                                    <div class="fusion-stats">
-                                        <div class="stat-item"><span class="stat-val">98%</span>置信度</div>
-                                        <div class="stat-item"><span class="stat-val">4</span>数据源</div>
-                                        <div class="stat-item"><span class="stat-val">12ms</span>延迟</div>
-                                    </div>
-                                </div>
+                                <div id="trace-fusion-card" style="display:none;"></div>
                             </div>
                         </div>
                         <div class="trace-col col-right">
@@ -1515,9 +1523,7 @@
                                 <div class="card-icon"><i class="fa-solid fa-brain"></i></div>
                                 <div class="card-content">
                                     <h4>行为模式匹配</h4>
-                                    <div class="progress-bar">
-                                        <div class="fill" style="width: 85%">85% 匹配度</div>
-                                    </div>
+                                    <div style="margin-top:6px; font-size:12px; color:#e2e8f0;">匹配度：85%</div>
                                     <p class="sub-text">匹配历史库：2023年"汉光演习"前奏模式</p>
                                 </div>
                             </div>
@@ -1550,6 +1556,9 @@
                                         <p>基于特征重合度计算匹配分数为 85%</p>
                                     </div>
                                 </div>
+                            </div>
+                            <div style="margin-top: 8px; text-align: center;">
+                                <button style="background: #475569; border: 1px solid #5c6f8a; color: white; border-radius: 4px; padding: 4px 8px; font-size: 12px; cursor: pointer;">查看工作流</button>
                             </div>
                             <div class="step-connector"><i class="fa-solid fa-arrow-right"></i></div>
                         </div>
@@ -1671,6 +1680,10 @@
                 };
                 const confirmBtn = document.getElementById('plan-confirm-btn');
                 if (confirmBtn) confirmBtn.style.display = 'inline-block';
+                const uavCard = document.getElementById('uavCard');
+                if (uavCard) uavCard.style.display = 'block';
+                const monitorCard = document.getElementById('monitorCard');
+                if (monitorCard) monitorCard.style.display = 'none';
             } else if (planId === 'plan-b') {
                 plan = {
                     title: '052D 驱逐舰 · 警告驱离',
@@ -2193,9 +2206,9 @@
                 
                 const pathPoints = [
                     [25.2606, 125.0031], // Start
-                    [24.5, 123.5],       // Waypoint 1 (East of Yilan)
-                    [23.5, 122.5],       // Waypoint 2 (East of Hualien)
-                    [22.8, 121.5]        // End (Taitung Offshore)
+                    [25.3872, 121.5733], // WP1: 25°23'14"N 121°34'24"E
+                    [25.1303, 120.9686], // WP2: 25°07'49"N 120°58'07"E
+                    [24.2811, 120.2258]  // End: 24°16'52"N 120°13'33"E (彰化县附近海域)
                 ];
 
                 // Draw Path Line
@@ -2214,10 +2227,10 @@
                     iconAnchor: [8, 8]
                 });
                 
-                L.marker([24.5, 123.5], {icon: arrowIcon}).addTo(map);
-                L.marker([23.5, 122.5], {icon: arrowIcon}).addTo(map);
+                L.marker([25.3872, 121.5733], {icon: arrowIcon}).addTo(map);
+                L.marker([25.1303, 120.9686], {icon: arrowIcon}).addTo(map);
 
-                window._shipVectorDeg = { dx: 24.5 - shipLat, dy: 123.5 - shipLng };
+                window._shipVectorDeg = { dx: 25.3872 - shipLat, dy: 121.5733 - shipLng };
 
                 // Add Destination Marker
                 const destIcon = L.divIcon({
@@ -2227,13 +2240,13 @@
                     iconAnchor: [12, 12]
                 });
 
-                const destMarker = L.marker([22.8, 121.5], {icon: destIcon}).addTo(map);
+                const destMarker = L.marker([24.2811, 120.2258], {icon: destIcon}).addTo(map);
                 
                 // Destination Label
                 destMarker.bindTooltip(`
                     <div style="background: rgba(15, 23, 42, 0.9); border: 1px solid #ef4444; color: white; padding: 6px 10px; border-radius: 4px; font-size: 12px; text-align: center;">
-                        <div style="font-weight: bold; color: #ef4444; margin-bottom: 2px;">预计目的地</div>
-                        <div>台东市附近海域</div>
+                        <div style="font-weight: bold; color: #ef4444; margin-bottom: 2px;">彰化县附近海域</div>
+                        <div>目标航段：经 WP1、WP2 抵达彰化</div>
                         <div style="font-size: 10px; color: #94a3b8; margin-top: 2px;">ETA: 12小时后</div>
                     </div>
                 `, {permanent: true, direction: 'bottom', offset: [0, 10], className: 'custom-ship-tooltip'}).openTooltip();
@@ -2249,29 +2262,27 @@
                 const badge = document.querySelector('#intelCard .monitor-header span:last-child');
                 if(badge) badge.textContent = intelData.length + "条";
 
-                // Show Solution Recommendation Card
-                document.getElementById('solutionCard').style.display = 'flex';
-                document.getElementById('solutionCard').classList.add('slide-in-right');
-
                 // Optional: Auto hide after 8 seconds
                 setTimeout(() => {
                     closeIntelPopup();
                 }, 8000);
-            }, 20000);
+            }, 10000);
         });
 
         function closeIntelPopup() {
             document.getElementById('intelPopup').classList.remove('show');
         }
 
+        function showSolutionCard() {
+            const data = intelData[currentIntelIndex];
+            const allowed = '东部战区美国两艘舰艇过航台湾海峡';
+            if (!data || data.title !== allowed) return;
+            const solutionCard = document.getElementById('solutionCard');
+            if (solutionCard) { solutionCard.style.display = 'flex'; solutionCard.classList.add('slide-in-right'); }
+        }
+
         function toggleMonitor() {
             const monitorCard = document.getElementById('monitorCard');
-            const intelCard = document.getElementById('intelCard');
-            
-            // If intel card is open, close it
-            if (intelCard.style.display !== 'none') {
-                intelCard.style.display = 'none';
-            }
 
             if (monitorCard.style.display === 'none') {
                 monitorCard.style.display = 'flex';
@@ -2286,7 +2297,6 @@
 
             if (intelCard.style.display === 'none') {
                 intelCard.style.display = 'block';
-                if (solutionCard) solutionCard.style.display = 'flex';
             } else {
                 intelCard.style.display = 'none';
                 if (solutionCard) solutionCard.style.display = 'none';
@@ -2295,8 +2305,10 @@
 
         function toggleUavDispatch() {
             const card = document.getElementById('uavCard');
+            const monitorCard = document.getElementById('monitorCard');
             if (card.style.display === 'none') {
                 card.style.display = 'block';
+                if (monitorCard) monitorCard.style.display = 'none';
             } else {
                 card.style.display = 'none';
             }
@@ -2316,6 +2328,77 @@
             } else {
                 detailPanel.style.display = 'flex';
             }
+        }
+
+        const taiwanBBox = { minLat: 21.7, maxLat: 25.4, minLng: 120.0, maxLng: 122.1 };
+        function approximatelyEqual(p, q) { return Math.abs(p[0] - q[0]) < 1e-9 && Math.abs(p[1] - q[1]) < 1e-9; }
+        function insideBBox(lat, lng, b) { return lat >= b.minLat && lat <= b.maxLat && lng >= b.minLng && lng <= b.maxLng; }
+        function intersectVertical(p1, p2, x) {
+            const x1 = p1[1], x2 = p2[1];
+            if ((x < Math.min(x1, x2)) || (x > Math.max(x1, x2))) return null;
+            const t = (x - x1) / (x2 - x1);
+            if (t < 0 || t > 1 || !isFinite(t)) return null;
+            const y = p1[0] + (p2[0] - p1[0]) * t;
+            return [y, x];
+        }
+        function intersectHorizontal(p1, p2, y) {
+            const y1 = p1[0], y2 = p2[0];
+            if ((y < Math.min(y1, y2)) || (y > Math.max(y1, y2))) return null;
+            const t = (y - y1) / (y2 - y1);
+            if (t < 0 || t > 1 || !isFinite(t)) return null;
+            const x = p1[1] + (p2[1] - p1[1]) * t;
+            return [y, x];
+        }
+        function bboxIntersections(p1, p2, b) {
+            const pts = [];
+            let p;
+            p = intersectVertical(p1, p2, b.minLng); if (p && p[0] >= b.minLat && p[0] <= b.maxLat) pts.push(p);
+            p = intersectVertical(p1, p2, b.maxLng); if (p && p[0] >= b.minLat && p[0] <= b.maxLat) pts.push(p);
+            p = intersectHorizontal(p1, p2, b.minLat); if (p && p[1] >= b.minLng && p[1] <= b.maxLng) pts.push(p);
+            p = intersectHorizontal(p1, p2, b.maxLat); if (p && p[1] >= b.minLng && p[1] <= b.maxLng) pts.push(p);
+            return pts;
+        }
+        function mergeConsecutiveDuplicates(arr) {
+            const res = [];
+            for (let i = 0; i < arr.length; i++) {
+                const p = arr[i];
+                const last = res[res.length - 1];
+                if (!last || !approximatelyEqual(p, last)) res.push(p);
+            }
+            return res;
+        }
+        function routeAroundLand(points) {
+            const b = taiwanBBox;
+            const off = 0.08;
+            const out = [points[0]];
+            for (let i = 0; i < points.length - 1; i++) {
+                const a = points[i], c = points[i + 1];
+                const ints = bboxIntersections(a, c, b);
+                const aInside = insideBBox(a[0], a[1], b);
+                const cInside = insideBBox(c[0], c[1], b);
+                if (ints.length >= 2 || (aInside || cInside)) {
+                    let entry = ints[0], exit = ints[1];
+                    if (ints.length < 2) {
+                        if (aInside && !cInside) { entry = a; exit = ints[0] || c; }
+                        else if (!aInside && cInside) { entry = ints[0] || a; exit = c; }
+                        else { entry = ints[0] || a; exit = ints[1] || c; }
+                    }
+                    const mid = (a[0] + c[0]) / 2;
+                    const north = (b.minLat + b.maxLat) / 2;
+                    const useTop = mid >= north;
+                    const y = useTop ? b.maxLat + off : b.minLat - off;
+                    const eLng = entry[1];
+                    const xLng = exit[1];
+                    if (!approximatelyEqual(out[out.length - 1], a)) out.push(a);
+                    out.push([y, eLng]);
+                    out.push([y, xLng]);
+                    out.push(c);
+                } else {
+                    if (!approximatelyEqual(out[out.length - 1], a)) out.push(a);
+                    out.push(c);
+                }
+            }
+            return mergeConsecutiveDuplicates(out);
         }
 
         // UAV Selection Logic
@@ -2355,6 +2438,7 @@
             if (Array.isArray(window._uavWaypoints) && window._uavWaypoints.length > 0) {
                 points = [[base.lat, base.lng], ...window._uavWaypoints, [currentTargetLat, currentTargetLng]];
             }
+            points = routeAroundLand(points);
             L.polyline(points, {
                 color: '#10b981',
                 weight: 2,
@@ -2365,7 +2449,7 @@
             // Draw Inbound Path (Target -> Base) - Slightly offset to show distinct path if needed, 
             // but physically it's usually same. To make it visible as "Return", we can curve it or just overlay.
             // Let's use a different color or style for return to distinguish.
-            const inboundPoints = [...points].reverse();
+            const inboundPoints = routeAroundLand([...points].reverse());
             L.polyline(inboundPoints, {
                 color: '#3b82f6', // Blue for return
                 weight: 2,
@@ -2437,9 +2521,10 @@
             const steps = 60;
             const interval = Math.floor(totalMs / steps);
             let i = 0;
-            const pathPoints = (Array.isArray(window._uavWaypoints) && window._uavWaypoints.length > 0)
+            const pathPointsRaw = (Array.isArray(window._uavWaypoints) && window._uavWaypoints.length > 0)
                 ? [[base.lat, base.lng], ...window._uavWaypoints, [currentTargetLat, currentTargetLng]]
                 : [[base.lat, base.lng], [currentTargetLat, currentTargetLng]];
+            const pathPoints = routeAroundLand(pathPointsRaw);
             function kmPerDeg(lat) { return { lat: 111.32, lon: 111.32 * Math.cos(lat * Math.PI / 180) }; }
             const segLens = [];
             let totalKm = 0;
@@ -2489,13 +2574,52 @@
                 setTimeout(() => { popup.classList.remove('show'); }, 8000);
             }
 
+            if (window.ship1Marker) {
+                const t = window.ship1Marker.getTooltip();
+                const html = `
+                    <div style="background: rgba(15, 23, 42, 0.9); border: 1px solid #3b82f6; color: white; padding: 8px; border-radius: 4px; font-size: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.3); min-width: 180px;">
+                        <div style="font-weight: bold; color: #3b82f6; margin-bottom: 4px; border-bottom: 1px solid rgba(59,130,246,0.3); padding-bottom: 2px;">
+                            目标 A (DDG-114)
+                        </div>
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 2px;">
+                            <span style="color: #94a3b8;">型号:</span>
+                            <span>拉尔夫·约翰逊号</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between;">
+                            <span style="color: #94a3b8;">置信度:</span>
+                            <span style="color: #10b981; font-weight: bold;">95%</span>
+                        </div>
+                    </div>
+                `;
+                if (t) t.setContent(html); else window.ship1Marker.bindTooltip(html, {permanent: true, direction: 'left', opacity: 1, className: 'custom-ship-tooltip', offset: [-15, 0]}).openTooltip();
+            }
+            if (window.ship2Marker) {
+                const t2 = window.ship2Marker.getTooltip();
+                const html2 = `
+                    <div style="background: rgba(15, 23, 42, 0.9); border: 1px solid #3b82f6; color: white; padding: 8px; border-radius: 4px; font-size: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.3); min-width: 180px;">
+                        <div style="font-weight: bold; color: #3b82f6; margin-bottom: 4px; border-bottom: 1px solid rgba(59,130,246,0.3); padding-bottom: 2px;">
+                            目标 B (T-AGS 62)
+                        </div>
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 2px;">
+                            <span style="color: #94a3b8;">型号:</span>
+                            <span>鲍迪奇号勘测船</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between;">
+                            <span style="color: #94a3b8;">置信度:</span>
+                            <span style="color: #10b981; font-weight: bold;">95%</span>
+                        </div>
+                    </div>
+                `;
+                if (t2) t2.setContent(html2); else window.ship2Marker.bindTooltip(html2, {permanent: true, direction: 'right', opacity: 1, className: 'custom-ship-tooltip', offset: [15, 0]}).openTooltip();
+            }
+
             const newIntel = {
                 title: '无人机回传：两舰型号识别与威胁评估更新',
                 time: '刚刚',
                 threat: '中等威胁',
                 image: 'images/无人机拍摄船.png',
                 images: ['无人机拍摄船.png','船.png'],
-                desc: '系统通过视觉识别模型识别军舰型号，并与卫星图像和信号情报进行融合，确认目标为“鲍迪奇”号海洋测量船与拉尔夫·约翰逊号驱逐舰，预测概率提高至 95%，威胁评估从高降低至中等。'
+                desc: '通过融合无人机与卫星影像，确认目标为“鲍迪奇”号海洋测量船与拉尔夫·约翰逊号驱逐舰，预测概率提高至 95%，威胁评估从高降低至中等。'
             };
             intelData.unshift(newIntel);
             const idx = intelData.findIndex(d => d.title === '东部战区美国两艘舰艇过航台湾海峡');
@@ -2587,6 +2711,8 @@
          let selectionLayerGroup = L.layerGroup().addTo(map);
          let flightPathLayerGroup = L.layerGroup().addTo(map);
          let waypointLayerGroup = L.layerGroup().addTo(map);
+         let monitorLayerGroup = L.layerGroup().addTo(map);
+         let monitorLocationsLayerGroup = L.layerGroup().addTo(map);
          let isPickingMode = false;
          let currentTargetLat = 24.0589;
          let currentTargetLng = 120.4333;
@@ -2864,7 +2990,134 @@
                 if (btn) { btn.textContent = '结束编辑'; btn.style.background = '#f59e0b'; btn.style.color = '#111827'; }
             } else {
                 stopFlightPathEditing();
-                if (btn) { btn.textContent = '添加拐点'; btn.style.background = '#3b82f6'; btn.style.color = 'white'; }
+                if (btn) { btn.textContent = '添加编辑点'; btn.style.background = '#3b82f6'; btn.style.color = 'white'; }
             }
         }
+    </script>
+    <script>
+        const MONITOR_DB_KEY = 'monitor_db';
+        const MONITOR_DB_VERSION = 3;
+        function initMonitorDB() {
+            try {
+                const raw = localStorage.getItem(MONITOR_DB_KEY);
+                if (raw) {
+                    let db = JSON.parse(raw);
+                    if (!db.version || db.version < MONITOR_DB_VERSION) {
+                        db = migrateMonitorDB(db);
+                        db.version = MONITOR_DB_VERSION;
+                        saveMonitorDB(db);
+                    }
+                    return db;
+                }
+            } catch (e) {}
+            const seed = {
+                version: MONITOR_DB_VERSION,
+                locations: [
+                    { id: 'loc-changhua', name: '520 复兴路 Lukang 彰化县', lat: 24.0589, lng: 120.4333, altitude: 5.68, cameras: [
+                        { id: 'CAM-01', name: '路口北向', image: '实时监控.png' },
+                        { id: 'CAM-02', name: '路口南向', image: '实时监控南.png' }
+                    ]},
+                    { id: 'loc-taichung-port', name: '15 Yucai Xihu 彰化县', lat: 23.965833, lng: 120.482778, altitude: 17.31, cameras: [
+                        { id: 'CAM-03', name: '路口北向', image: '实时监控2.png' },
+                        { id: 'CAM-04', name: '路口南向', image: '实时监控2南.png' }
+                    ]}
+                ]
+            };
+            localStorage.setItem(MONITOR_DB_KEY, JSON.stringify(seed));
+            return seed;
+        }
+        function saveMonitorDB(db) {
+            try {
+                localStorage.setItem(MONITOR_DB_KEY, JSON.stringify(db));
+            } catch (e) {}
+        }
+        function migrateMonitorDB(db) {
+            if (!db || typeof db !== 'object') db = {};
+            if (!Array.isArray(db.locations)) db.locations = [];
+            const locTaichung = db.locations.find(l => l.id === 'loc-taichung-port');
+            if (locTaichung) {
+                locTaichung.name = '15 Yucai Xihu 彰化县';
+                locTaichung.lat = 23.965833;
+                locTaichung.lng = 120.482778;
+                locTaichung.altitude = 17.31;
+                locTaichung.cameras = [
+                    { id: 'CAM-03', name: '路口北向', image: '实时监控2.png' },
+                    { id: 'CAM-04', name: '路口南向', image: '实时监控2南.png' }
+                ];
+            }
+            const locChanghua = db.locations.find(l => l.id === 'loc-changhua');
+            if (locChanghua) {
+                locChanghua.cameras = [
+                    { id: 'CAM-01', name: '路口北向', image: '实时监控.png' },
+                    { id: 'CAM-02', name: '路口南向', image: '实时监控南.png' }
+                ];
+            }
+            return db;
+        }
+        function renderMonitorSelectors() {
+            const db = initMonitorDB();
+            const locSel = document.getElementById('monitor-location-select');
+            const camSel = document.getElementById('monitor-camera-select');
+            if (!locSel || !camSel) return;
+            locSel.innerHTML = db.locations.map(l => `<option value="${l.id}">${l.name}</option>`).join('');
+            const first = db.locations[0];
+            camSel.innerHTML = first.cameras.map(c => `<option value="${c.id}">${c.name}</option>`).join('');
+            locSel.onchange = () => {
+                const sel = db.locations.find(l => l.id === locSel.value);
+                if (!sel) return;
+                camSel.innerHTML = sel.cameras.map(c => `<option value="${c.id}">${c.name}</option>`).join('');
+                camSel.value = sel.cameras[0]?.id || '';
+                updateMonitorUI();
+            };
+            camSel.onchange = updateMonitorUI;
+            renderMonitorMarkers();
+            updateMonitorUI();
+        }
+        function renderMonitorMarkers() {
+            const db = initMonitorDB();
+            if (typeof monitorLocationsLayerGroup === 'undefined') return;
+            monitorLocationsLayerGroup.clearLayers();
+            const locSel = document.getElementById('monitor-location-select');
+            db.locations.forEach(loc => {
+                const m = L.marker([loc.lat, loc.lng], { icon: blueMarkerIcon }).addTo(monitorLocationsLayerGroup);
+                m.bindTooltip(loc.name, {permanent: true, direction: 'top', offset: [0, -10], className: 'custom-ship-tooltip'}).openTooltip();
+                m.on('click', () => {
+                    if (locSel) {
+                        locSel.value = loc.id;
+                        const change = locSel.onchange;
+                        if (typeof change === 'function') change();
+                    }
+                });
+            });
+        }
+        function formatCoords(lat, lng, alt) {
+            const latDeg = Math.abs(lat);
+            const lngDeg = Math.abs(lng);
+            const latStr = latDeg.toFixed(5) + '°' + (lat >= 0 ? 'N' : 'S');
+            const lngStr = lngDeg.toFixed(5) + '°' + (lng >= 0 ? 'E' : 'W');
+            return `${latStr}  ${lngStr}  地面海拔 ${alt.toFixed(2)}米`;
+        }
+        function updateMonitorUI() {
+            const db = initMonitorDB();
+            const locSel = document.getElementById('monitor-location-select');
+            const camSel = document.getElementById('monitor-camera-select');
+            const nameEl = document.getElementById('monitor-location-name');
+            const coordsEl = document.getElementById('monitor-location-coords');
+            const imgEl = document.getElementById('liveFeedImage');
+            if (!locSel || !camSel || !nameEl || !coordsEl || !imgEl) return;
+            const loc = db.locations.find(l => l.id === locSel.value) || db.locations[0];
+            const cam = loc.cameras.find(c => c.id === camSel.value) || loc.cameras[0];
+            nameEl.textContent = loc.name;
+            coordsEl.textContent = formatCoords(loc.lat, loc.lng, loc.altitude);
+            imgEl.src = 'images/' + cam.image;
+            imgEl.alt = cam.name;
+            imgEl.onerror = () => { imgEl.onerror = null; imgEl.src = 'images/实时监控.png'; };
+            if (typeof monitorLayerGroup !== 'undefined') {
+                monitorLayerGroup.clearLayers();
+                const m = L.marker([loc.lat, loc.lng], { icon: blueMarkerIcon }).addTo(monitorLayerGroup);
+                m.bindTooltip(loc.name, {permanent: true, direction: 'top', offset: [0, -10], className: 'custom-ship-tooltip'}).openTooltip();
+                map.flyTo([loc.lat, loc.lng], 15, { animate: true, duration: 1.2 });
+            }
+        }
+        document.addEventListener('DOMContentLoaded', renderMonitorSelectors);
     </script>
