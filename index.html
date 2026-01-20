@@ -63,7 +63,7 @@
         }
 
         /* Re-enable pointer events for interactive children */
-        .monitor-card, .detail-panel, .uav-card {
+        .monitor-card, .detail-panel, .uav-card, .uav-detail-modal, .plan-detail-modal, #shipDetailModal, #overlay-ship, #shipDetailPage {
             pointer-events: auto;
         }
 
@@ -289,7 +289,7 @@
 
         /* UAV Detail Modal */
         .uav-detail-modal {
-            position: absolute;
+            position: fixed;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
@@ -304,7 +304,7 @@
         }
 
         .plan-detail-modal {
-            position: absolute;
+            position: fixed;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
@@ -318,6 +318,8 @@
             flex-direction: column;
             box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5);
         }
+        #shipDetailModal { z-index: 9999; }
+        #overlay-ship { z-index: 9998; }
         .plan-detail-header {
             padding: 12px 16px;
             background: #334155;
@@ -496,6 +498,40 @@
             font-size: 14px;
             letter-spacing: 1px;
             font-weight: bold;
+        }
+
+        .ship-detail-page {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 760px;
+            max-width: 90vw;
+            height: 80vh;
+            max-height: 90vh;
+            background: #1e293b;
+            border: 1px solid #475569;
+            border-radius: 8px;
+            z-index: 10000;
+            display: none;
+            flex-direction: column;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5);
+        }
+        .ship-detail-header {
+            padding: 12px 16px;
+            background: #334155;
+            border-bottom: 1px solid #475569;
+            font-weight: bold;
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .ship-detail-body {
+            padding: 16px;
+            font-size: 13px;
+            color: #e2e8f0;
+            overflow-y: auto;
         }
 
         .monitor-body {
@@ -960,14 +996,21 @@
                         </div>
                     </div>
                 </div>
+                <div id="shipDetailPage" class="ship-detail-page">
+                    <div class="ship-detail-header">
+                        <span id="ship-page-title">舰艇详情</span>
+                        <i class="fa-solid fa-times" style="cursor:pointer;" onclick="closeShipPage()"></i>
+                    </div>
+                    <div class="ship-detail-body" id="ship-page-body"></div>
+                </div>
             </div>
 
             <!-- Bottom Row: UAV Dispatch -->
             
             <!-- Bottom Row: UAV Dispatch -->
-            <div class="uav-card" id="uavCard" style="position: absolute; top: 20px; left: 0; display: none;">
+            <div class="uav-card" id="uavCard" style="position: absolute; top: 5px; left: 0; display: none;">
                 <div class="uav-header">
-                    <svg t="1768383611280" class="icon" viewBox="0 0 2048 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="11272" width="28" height="14" style="vertical-align: middle; fill: white; margin-right: 5px;"><path d="M1463.217231 276.637538c-4.883692 4.844308-12.209231 4.844308-17.132308 4.844308-9.806769 0-17.132308-4.844308-24.457846-12.130461l-36.706462-48.521847c-9.806769-12.130462-7.325538-31.547077 7.325539-41.275076a28.987077 28.987077 0 0 1 41.629538 7.286153l36.706462 48.561231c9.728 14.572308 7.325538 31.507692-7.364923 41.235692z m-97.870769 0c-4.883692 4.844308-12.209231 4.844308-17.132308 4.844308-9.806769 0-17.132308-4.844308-24.457846-12.130461l-36.706462-48.521847c-9.846154-12.130462-7.325538-31.547077 7.325539-41.275076a28.987077 28.987077 0 0 1 41.590154 7.286153l36.706461 48.561231c9.767385 14.572308 7.325538 31.507692-7.364923 41.235692z m-105.235693 0c-4.883692 4.844308-12.209231 4.844308-17.092923 4.844308-9.806769 0-17.132308-4.844308-24.497231-12.130461l-36.667077-48.521847c-9.806769-12.130462-7.364923-31.547077 7.325539-41.275076a28.987077 28.987077 0 0 1 41.590154 7.286153l36.706461 48.561231c9.767385 14.572308 7.325538 31.507692-7.364923 41.235692z m-237.331692 524.169847a54.075077 54.075077 0 0 1-53.838769-53.405539c0-29.144615 24.497231-53.366154 53.838769-53.366154s53.799385 24.260923 53.799385 53.366154c2.481231 29.144615-21.976615 53.405538-53.799385 53.405539zM805.021538 281.481846c-4.883692 0-12.209231-2.402462-17.132307-4.844308-12.209231-9.688615-14.651077-26.702769-7.286154-41.235692l36.706461-48.561231c9.767385-12.130462 26.899692-14.572308 41.590154-7.286153 12.209231 9.728 14.651077 26.702769 7.325539 41.275076l-36.706462 48.521847a29.932308 29.932308 0 0 1-24.457846 12.130461z m-46.473846-60.652308l-36.667077 48.521847c-4.923077 7.286154-14.690462 12.130462-24.49723 12.130461a45.686154 45.686154 0 0 1-17.132308-4.844308c-12.209231-9.688615-14.690462-26.702769-7.325539-41.235692l36.706462-48.561231c9.767385-12.130462 26.899692-14.572308 41.550769-7.286153 14.729846 9.728 17.171692 29.144615 7.364923 41.275076z m308.342154 303.340308h17.092923v101.888h-122.328615V524.209231h105.235692zM660.637538 220.829538l-36.706461 48.521847c-4.883692 7.286154-14.651077 12.130462-24.418462 12.130461a45.686154 45.686154 0 0 1-17.171692-4.844308c-12.209231-9.688615-14.690462-26.702769-7.325538-41.235692l36.706461-48.561231c9.767385-12.130462 26.899692-14.572308 41.550769-7.286153 14.729846 9.728 17.171692 29.144615 7.364923 41.275076zM2006.409846 7.286154h-225.083077c-22.055385 0-41.590154 19.416615-41.590154 41.235692 0 21.858462 19.574154 41.275077 41.590154 41.275077h83.140923v80.068923h-141.863384L1235.652923 9.688615C1218.520615 4.844308 1198.946462 0 1179.332923 0h-308.263385c-19.574154 0-39.148308 2.441846-56.280615 9.688615L327.876923 169.865846H183.532308V89.796923h83.180307c22.016 0 41.590154-19.416615 41.590154-41.275077 0-21.819077-19.574154-41.235692-41.590154-41.235692H41.590154C19.574154 7.286154 0 26.702769 0 48.521846 0 70.380308 19.574154 89.796923 41.590154 89.796923h83.180308v80.068923h-22.055385c-31.744 0-58.683077 26.702769-58.683077 58.249846V271.753846c0 38.833231 31.822769 70.380308 70.931692 70.380308h342.567385V948.775385c0 21.858462 17.171692 38.833231 39.187692 38.83323h24.457846c7.364923 0 12.209231-4.844308 12.209231-12.130461L575.015385 342.173538h48.915692c26.939077 0 51.396923 16.935385 61.203692 41.235693 9.767385 24.260923 34.264615 41.235692 61.164308 41.235692h80.738461v38.833231c0 31.547077 26.899692 58.249846 58.683077 58.249846h17.171693v101.927385h-24.457846a27.057231 27.057231 0 0 0-26.939077 26.702769v177.112615c0 14.572308 12.248615 26.702769 26.939077 26.702769l291.170461 21.858462c14.690462 0 24.457846-17.014154 24.457846-31.547077v-191.724308c0-14.572308-12.209231-26.702769-26.939077-26.702769h-24.457846V524.209231H1174.449231c2.481231 0 2.481231 0 4.923077-2.441846 2.481231 0 4.923077 0 7.325538-2.441847 2.481231 0 2.481231-2.402462 4.883692-2.402461 2.481231 0 2.481231-2.441846 4.923077-2.441846 2.441846-2.402462 4.923077-2.402462 4.923077-4.844308l2.402462-2.441846c2.481231-2.402462 2.481231-4.844308 4.923077-4.844308l2.402461-2.441846c2.481231-2.402462 2.481231-4.844308 4.923077-7.246769 0 0 0-2.441846 2.441846-2.441846 0-2.441846 2.481231-4.844308 2.481231-7.286154v-50.963692h80.738462c26.899692 0 51.357538-16.974769 61.124923-41.235693 9.846154-24.260923 34.264615-41.275077 61.203692-41.275077H1472.984615l39.187693 633.383385c0 7.246769 7.325538 12.130462 12.20923 12.130461h24.497231a38.518154 38.518154 0 0 0 39.148308-38.83323V349.420308h342.528c39.148308 0 70.971077-31.507692 70.971077-70.340923v-43.716923c0-12.130462-2.481231-21.819077-9.767385-31.507693-7.364923-9.728-14.690462-17.014154-24.497231-21.858461-7.325538-2.441846-14.651077-4.844308-22.055384-4.844308h-21.976616V97.083077h83.180308c22.055385 0 41.590154-19.416615 41.590154-41.275077 0-29.144615-19.534769-48.521846-41.590154-48.521846z" fill="white" p-id="11273"></path></svg>
+                    <svg t="1768383611280" class="icon" viewBox="0 0 2048 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="11272" width="28" height="20" style="vertical-align: middle; fill: white; margin-right: 5px;"><path d="M1463.217231 276.637538c-4.883692 4.844308-12.209231 4.844308-17.132308 4.844308-9.806769 0-17.132308-4.844308-24.457846-12.130461l-36.706462-48.521847c-9.806769-12.130462-7.325538-31.547077 7.325539-41.275076a28.987077 28.987077 0 0 1 41.629538 7.286153l36.706462 48.561231c9.728 14.572308 7.325538 31.507692-7.364923 41.235692z m-97.870769 0c-4.883692 4.844308-12.209231 4.844308-17.132308 4.844308-9.806769 0-17.132308-4.844308-24.457846-12.130461l-36.706462-48.521847c-9.846154-12.130462-7.325538-31.547077 7.325539-41.275076a28.987077 28.987077 0 0 1 41.590154 7.286153l36.706461 48.561231c9.767385 14.572308 7.325538 31.507692-7.364923 41.235692z m-105.235693 0c-4.883692 4.844308-12.209231 4.844308-17.092923 4.844308-9.806769 0-17.132308-4.844308-24.497231-12.130461l-36.667077-48.521847c-9.806769-12.130462-7.364923-31.547077 7.325539-41.275076a28.987077 28.987077 0 0 1 41.590154 7.286153l36.706461 48.561231c9.767385 14.572308 7.325538 31.507692-7.364923 41.235692z m-237.331692 524.169847a54.075077 54.075077 0 0 1-53.838769-53.405539c0-29.144615 24.497231-53.366154 53.838769-53.366154s53.799385 24.260923 53.799385 53.366154c2.481231 29.144615-21.976615 53.405538-53.799385 53.405539zM805.021538 281.481846c-4.883692 0-12.209231-2.402462-17.132307-4.844308-12.209231-9.688615-14.651077-26.702769-7.286154-41.235692l36.706461-48.561231c9.767385-12.130462 26.899692-14.572308 41.590154-7.286153 12.209231 9.728 14.651077 26.702769 7.325539 41.275076l-36.706462 48.521847a29.932308 29.932308 0 0 1-24.457846 12.130461z m-46.473846-60.652308l-36.667077 48.521847c-4.923077 7.286154-14.690462 12.130462-24.49723 12.130461a45.686154 45.686154 0 0 1-17.132308-4.844308c-12.209231-9.688615-14.690462-26.702769-7.325539-41.235692l36.706462-48.561231c9.767385-12.130462 26.899692-14.572308 41.550769-7.286153 14.729846 9.728 17.171692 29.144615 7.364923 41.275076z m308.342154 303.340308h17.092923v101.888h-122.328615V524.209231h105.235692zM660.637538 220.829538l-36.706461 48.521847c-4.883692 7.286154-14.651077 12.130462-24.418462 12.130461a45.686154 45.686154 0 0 1-17.171692-4.844308c-12.209231-9.688615-14.690462-26.702769-7.325538-41.235692l36.706461-48.561231c9.767385-12.130462 26.899692-14.572308 41.550769-7.286153 14.729846 9.728 17.171692 29.144615 7.364923 41.275076zM2006.409846 7.286154h-225.083077c-22.055385 0-41.590154 19.416615-41.590154 41.235692 0 21.858462 19.574154 41.275077 41.590154 41.275077h83.140923v80.068923h-141.863384L1235.652923 9.688615C1218.520615 4.844308 1198.946462 0 1179.332923 0h-308.263385c-19.574154 0-39.148308 2.441846-56.280615 9.688615L327.876923 169.865846H183.532308V89.796923h83.180307c22.016 0 41.590154-19.416615 41.590154-41.275077 0-21.819077-19.574154-41.235692-41.590154-41.235692H41.590154C19.574154 7.286154 0 26.702769 0 48.521846 0 70.380308 19.574154 89.796923 41.590154 89.796923h83.180308v80.068923h-22.055385c-31.744 0-58.683077 26.702769-58.683077 58.249846V271.753846c0 38.833231 31.822769 70.380308 70.931692 70.380308h342.567385V948.775385c0 21.858462 17.171692 38.833231 39.187692 38.83323h24.457846c7.364923 0 12.209231-4.844308 12.209231-12.130461L575.015385 342.173538h48.915692c26.939077 0 51.396923 16.935385 61.203692 41.235693 9.767385 24.260923 34.264615 41.235692 61.164308 41.235692h80.738461v38.833231c0 31.547077 26.899692 58.249846 58.683077 58.249846h17.171693v101.927385h-24.457846a27.057231 27.057231 0 0 0-26.939077 26.702769v177.112615c0 14.572308 12.248615 26.702769 26.939077 26.702769l291.170461 21.858462c14.690462 0 24.457846-17.014154 24.457846-31.547077v-191.724308c0-14.572308-12.209231-26.702769-26.939077-26.702769h-24.457846V524.209231H1174.449231c2.481231 0 2.481231 0 4.923077-2.441846 2.481231 0 4.923077 0 7.325538-2.441847 2.481231 0 2.481231-2.402462 4.883692-2.402461 2.481231 0 2.481231-2.441846 4.923077-2.441846 2.441846-2.402462 4.923077-2.402462 4.923077-4.844308l2.402462-2.441846c2.481231-2.402462 2.481231-4.844308 4.923077-4.844308l2.402461-2.441846c2.481231-2.402462 2.481231-4.844308 4.923077-7.246769 0 0 0-2.441846 2.441846-2.441846 0-2.441846 2.481231-4.844308 2.481231-7.286154v-50.963692h80.738462c26.899692 0 51.357538-16.974769 61.124923-41.235693 9.846154-24.260923 34.264615-41.275077 61.203692-41.275077H1472.984615l39.187693 633.383385c0 7.246769 7.325538 12.130462 12.20923 12.130461h24.497231a38.518154 38.518154 0 0 0 39.148308-38.83323V349.420308h342.528c39.148308 0 70.971077-31.507692 70.971077-70.340923v-43.716923c0-12.130462-2.481231-21.819077-9.767385-31.507693-7.364923-9.728-14.690462-17.014154-24.497231-21.858461-7.325538-2.441846-14.651077-4.844308-22.055384-4.844308h-21.976616V97.083077h83.180308c22.055385 0 41.590154-19.416615 41.590154-41.275077 0-29.144615-19.534769-48.521846-41.590154-48.521846z" fill="white" p-id="11273"></path></svg>
                     无人机侦察派遣
                 </div>
                 <div class="uav-form-group">
@@ -1060,11 +1103,11 @@
                 <div class="uav-form-group" style="display: flex; gap: 10px;">
                     <div style="flex: 1;">
                         <span class="uav-label">无人机起飞坐标</span>
-                        <input type="text" id="uav-start-coords" class="uav-select" readonly placeholder="选择无人机后自动生成">
+                        <span id="uav-start-coords" style="display:block; background: rgba(0,0,0,0.2); padding: 8px; border-radius: 4px; font-size: 12px; border: 1px solid #5c6f8a; color: white; min-height: 30px;"></span>
                     </div>
                     <div style="flex: 1;">
                         <span class="uav-label">无人机返航坐标</span>
-                        <input type="text" id="uav-return-coords" class="uav-select" readonly placeholder="选择无人机后自动生成">
+                        <span id="uav-return-coords" style="display:block; background: rgba(0,0,0,0.2); padding: 8px; border-radius: 4px; font-size: 12px; border: 1px solid #5c6f8a; color: white; min-height: 30px;"></span>
                     </div>
                 </div>
                 <button class="uav-btn" onclick="dispatchUav()">
@@ -1074,7 +1117,7 @@
         </div>
 
         <!-- Intel Push Card -->
-        <div class="monitor-card" id="intelCard" style="display: block; background: rgba(30, 41, 59, 0.95); border: 1px solid rgba(255, 255, 255, 0.1); width: 400px; height: 480px; position: absolute; right: 20px; top: 20px; z-index: 1001;">
+        <div class="monitor-card" id="intelCard" style="display: block; background: rgba(30, 41, 59, 0.95); border: 1px solid rgba(255, 255, 255, 0.1); width: 400px; height: 480px; position: absolute; right: 20px; top: 10px; z-index: 1001;">
             <!-- Header -->
             <div class="monitor-header">
                 <div class="icon-circle">
@@ -1142,7 +1185,7 @@
         </div>
 
         <!-- Solution Recommendation Card -->
-        <div class="monitor-card" id="solutionCard" style="display: none; background: rgba(30, 41, 59, 0.95); border: 1px solid rgba(255, 255, 255, 0.1); width: 400px; height: 340px; position: absolute; right: 20px; top: 510px; z-index: 1001;">
+        <div class="monitor-card" id="solutionCard" style="display: none; background: rgba(30, 41, 59, 0.95); border: 1px solid rgba(255, 255, 255, 0.1); width: 400px; height: 340px; position: absolute; right: 20px; top: 500px; z-index: 1001;">
             <div class="monitor-header">
                 <div class="icon-circle">
                      <i class="fa-solid fa-clipboard-check" style="color: white; font-size: 12px;"></i>
@@ -1231,6 +1274,41 @@
             <span id="uav-detail-title">UAV Model</span>
             <i class="fa-solid fa-times" style="cursor:pointer;" onclick="closeUavDetails()"></i>
         </div>
+        
+        <div id="overlay-ship" class="overlay-backdrop" onclick="closeShipDetails()" style="display:none;"></div>
+        <div id="shipDetailModal" class="uav-detail-modal" style="display:none;">
+            <div class="uav-detail-header">
+                <span id="ship-detail-title">舰艇详情</span>
+                <i class="fa-solid fa-times" style="cursor:pointer;" onclick="closeShipDetails()"></i>
+            </div>
+            <div class="uav-detail-body">
+                <div class="uav-spec-row">
+                    <span class="uav-spec-label">名称</span>
+                    <span class="uav-spec-val" id="ship-detail-name">—</span>
+                </div>
+                <div class="uav-spec-row">
+                    <span class="uav-spec-label">类型/级别</span>
+                    <span class="uav-spec-val" id="ship-detail-type">—</span>
+                </div>
+                <div class="uav-spec-row">
+                    <span class="uav-spec-label">满载排水量</span>
+                    <span class="uav-spec-val" id="ship-detail-displ">—</span>
+                </div>
+                <div class="uav-spec-row">
+                    <span class="uav-spec-label">尺寸</span>
+                    <span class="uav-spec-val" id="ship-detail-dim">—</span>
+                </div>
+                <div class="uav-spec-row">
+                    <span class="uav-spec-label">最高航速</span>
+                    <span class="uav-spec-val" id="ship-detail-speed">—</span>
+                </div>
+                <div class="uav-spec-row">
+                    <span class="uav-spec-label">主要装备/传感器</span>
+                    <span class="uav-spec-val" id="ship-detail-equip">—</span>
+                </div>
+                <div id="ship-detail-extra" style="margin-top: 12px; font-size: 12px; color: #cbd5e1; line-height: 1.6; max-height: 40vh; overflow-y: auto;"></div>
+            </div>
+        </div>
         <div class="uav-detail-body">
             <div class="uav-spec-row">
                 <span class="uav-spec-label">类型</span>
@@ -1275,6 +1353,9 @@
             </div>
         </div>
         <div style="display:flex; justify-content:flex-end; gap:8px; padding: 12px 16px; border-top: 1px solid #475569;">
+            <button id="plan-edit-btn" style="background:#475569; color:white; border:1px solid #5c6f8a; padding:8px 12px; border-radius:4px; font-size:12px; cursor:pointer; display:none;" onclick="openPlanManualEdit()">
+                <i class="fa-solid fa-pen-to-square"></i> 手动修改
+            </button>
             <button id="plan-confirm-btn" style="background:#10b981; color:white; border:none; padding:8px 12px; border-radius:4px; font-size:12px; cursor:pointer; display:none;" onclick="confirmPlan()">
                 <i class="fa-solid fa-check"></i> 确认方案
             </button>
@@ -1680,6 +1761,8 @@
                 };
                 const confirmBtn = document.getElementById('plan-confirm-btn');
                 if (confirmBtn) confirmBtn.style.display = 'inline-block';
+                const editBtn = document.getElementById('plan-edit-btn');
+                if (editBtn) editBtn.style.display = 'inline-block';
                 const uavCard = document.getElementById('uavCard');
                 if (uavCard) uavCard.style.display = 'block';
                 const monitorCard = document.getElementById('monitorCard');
@@ -1710,6 +1793,8 @@
                 };
                 const confirmBtn = document.getElementById('plan-confirm-btn');
                 if (confirmBtn) confirmBtn.style.display = 'none';
+                const editBtn = document.getElementById('plan-edit-btn');
+                if (editBtn) editBtn.style.display = 'none';
             } else if (planId === 'plan-c') {
                 plan = {
                     title: '继续观察 · 卫星监测强化',
@@ -1732,7 +1817,12 @@
                 };
                 const confirmBtn = document.getElementById('plan-confirm-btn');
                 if (confirmBtn) confirmBtn.style.display = 'none';
+                const editBtn = document.getElementById('plan-edit-btn');
+                if (editBtn) editBtn.style.display = 'none';
             }
+
+            window._currentPlanObj = plan;
+            window._planEls = { titleEl, descEl, simEl, gantt };
 
             titleEl.textContent = plan.title;
             descEl.textContent = plan.desc;
@@ -1835,6 +1925,291 @@
             document.getElementById('planDetailModal').style.display = 'none';
         }
 
+        function openPlanManualEdit() {
+            const body = document.querySelector('#planDetailModal .plan-detail-body');
+            if (!body || !window._currentPlanObj) return;
+            let panel = document.getElementById('plan-edit-panel');
+            if (!panel) {
+                panel = document.createElement('div');
+                panel.id = 'plan-edit-panel';
+                panel.style.borderTop = '1px solid #475569';
+                panel.style.marginTop = '8px';
+                panel.style.paddingTop = '8px';
+                panel.style.display = 'block';
+                const uavRow = document.createElement('div');
+                uavRow.style.display = 'flex';
+                uavRow.style.alignItems = 'center';
+                uavRow.style.gap = '8px';
+                const uavLab = document.createElement('span');
+                uavLab.textContent = '派遣无人机';
+                uavLab.style.color = '#cbd5e1';
+                uavLab.style.fontSize = '12px';
+                const uavSel = document.createElement('select');
+                uavSel.id = 'plan-edit-uav';
+                uavSel.style.background = 'rgba(0,0,0,0.2)';
+                uavSel.style.color = '#e2e8f0';
+                uavSel.style.border = '1px solid #5c6f8a';
+                uavSel.style.borderRadius = '4px';
+                uavSel.style.fontSize = '12px';
+                uavSel.style.padding = '4px 6px';
+                uavSel.innerHTML = [
+                    {id:'uav-01',name:'CH-4 彩虹'},
+                    {id:'uav-02',name:'TB-001 双尾蝎'},
+                    {id:'uav-03',name:'WZ-7 翔龙'}
+                ].map(x=>`<option value="${x.id}">${x.name}</option>`).join('');
+                uavRow.appendChild(uavLab);
+                uavRow.appendChild(uavSel);
+                panel.appendChild(uavRow);
+                const editWrap = document.createElement('div');
+                editWrap.id = 'plan-edit-steps';
+                editWrap.style.marginTop = '8px';
+                editWrap.style.display = 'grid';
+                editWrap.style.gridTemplateColumns = '1fr 1fr';
+                editWrap.style.gap = '8px';
+                panel.appendChild(editWrap);
+                const btns = document.createElement('div');
+                btns.style.display = 'flex';
+                btns.style.justifyContent = 'flex-end';
+                btns.style.gap = '8px';
+                btns.style.marginTop = '8px';
+                const applyBtn = document.createElement('button');
+                applyBtn.textContent = '应用修改';
+                applyBtn.style.background = '#3b82f6';
+                applyBtn.style.color = 'white';
+                applyBtn.style.border = 'none';
+                applyBtn.style.borderRadius = '4px';
+                applyBtn.style.padding = '6px 10px';
+                applyBtn.style.fontSize = '12px';
+                applyBtn.style.cursor = 'pointer';
+                applyBtn.onclick = applyPlanManualEdit;
+                const cancelBtn = document.createElement('button');
+                cancelBtn.textContent = '取消';
+                cancelBtn.style.background = '#475569';
+                cancelBtn.style.color = 'white';
+                cancelBtn.style.border = '1px solid #5c6f8a';
+                cancelBtn.style.borderRadius = '4px';
+                cancelBtn.style.padding = '6px 10px';
+                cancelBtn.style.fontSize = '12px';
+                cancelBtn.style.cursor = 'pointer';
+                cancelBtn.onclick = () => { panel.style.display = 'none'; };
+                btns.appendChild(cancelBtn);
+                btns.appendChild(applyBtn);
+                panel.appendChild(btns);
+                body.appendChild(panel);
+            }
+            populatePlanEditPanel();
+            panel.style.display = 'block';
+        }
+
+        function populatePlanEditPanel() {
+            const plan = window._currentPlanObj;
+            const wrap = document.getElementById('plan-edit-steps');
+            if (!plan || !wrap) return;
+            wrap.innerHTML = '';
+            plan.timelineStages.forEach((stage, si) => {
+                const header = document.createElement('div');
+                header.style.display = 'flex';
+                header.style.alignItems = 'center';
+                header.style.justifyContent = 'space-between';
+                header.style.background = 'rgba(255,255,255,0.06)';
+                header.style.border = '1px solid #475569';
+                header.style.borderRadius = '4px';
+                header.style.padding = '6px 8px';
+                const hleft = document.createElement('div');
+                hleft.textContent = stage.label;
+                hleft.style.color = '#e2e8f0';
+                hleft.style.fontWeight = 'bold';
+                hleft.style.fontSize = '12px';
+                const hright = document.createElement('div');
+                hright.style.display = 'flex';
+                hright.style.gap = '6px';
+                function mkBtn(text) {
+                    const b = document.createElement('button');
+                    b.textContent = text;
+                    b.style.background = '#475569';
+                    b.style.color = 'white';
+                    b.style.border = '1px solid #5c6f8a';
+                    b.style.borderRadius = '4px';
+                    b.style.padding = '2px 6px';
+                    b.style.fontSize = '12px';
+                    b.style.cursor = 'pointer';
+                    return b;
+                }
+                const btnUp = mkBtn('上移');
+                btnUp.onclick = () => moveStage(si, -1);
+                const btnDown = mkBtn('下移');
+                btnDown.onclick = () => moveStage(si, 1);
+                const btnDel = mkBtn('删除阶段');
+                btnDel.onclick = () => deleteStage(si);
+                hright.appendChild(btnUp);
+                hright.appendChild(btnDown);
+                hright.appendChild(btnDel);
+                header.appendChild(hleft);
+                header.appendChild(hright);
+                wrap.appendChild(header);
+                stage.steps.forEach((st, ti) => {
+                    const row = document.createElement('div');
+                    row.style.display = 'flex';
+                    row.style.alignItems = 'center';
+                    row.style.gap = '6px';
+                    const lab = document.createElement('span');
+                    lab.textContent = stage.label + ' · ' + st.label;
+                    lab.style.color = '#cbd5e1';
+                    lab.style.fontSize = '12px';
+                    lab.style.flex = '1';
+                    const inp = document.createElement('input');
+                    inp.type = 'number';
+                    inp.min = '0';
+                    inp.step = '0.1';
+                    inp.value = st.hours;
+                    inp.id = `edit-step-${si}-${ti}`;
+                    inp.style.width = '80px';
+                    inp.style.background = 'rgba(0,0,0,0.2)';
+                    inp.style.color = '#e2e8f0';
+                    inp.style.border = '1px solid #5c6f8a';
+                    inp.style.borderRadius = '4px';
+                    inp.style.fontSize = '12px';
+                    inp.style.padding = '4px 6px';
+                    row.appendChild(lab);
+                    row.appendChild(inp);
+                    wrap.appendChild(row);
+                });
+            });
+        }
+
+        function applyPlanManualEdit() {
+            const plan = window._currentPlanObj;
+            const els = window._planEls || {};
+            if (!plan || !els.gantt) return;
+            plan.timelineStages.forEach((stage, si) => {
+                stage.steps.forEach((st, ti) => {
+                    const v = parseFloat(document.getElementById(`edit-step-${si}-${ti}`).value);
+                    if (!isNaN(v) && v >= 0) st.hours = v;
+                });
+            });
+            const uavSel = document.getElementById('plan-edit-uav');
+            if (uavSel && uavSel.value) {
+                const opt = document.getElementById('opt-' + uavSel.value);
+                if (opt) selectUav(opt, uavSel.value);
+            }
+            rerenderCurrentPlan();
+            const panel = document.getElementById('plan-edit-panel');
+            if (panel) panel.style.display = 'none';
+        }
+
+        function rerenderCurrentPlan() {
+            const plan = window._currentPlanObj;
+            const { titleEl, descEl, simEl, gantt } = window._planEls || {};
+            if (!plan || !titleEl || !descEl || !simEl || !gantt) return;
+            titleEl.textContent = plan.title;
+            descEl.textContent = plan.desc;
+            gantt.innerHTML = '';
+            const stages = plan.timelineStages || [];
+            let cursor = 0;
+            const stagesAbs = stages.map(stage => {
+                const steps = stage.steps.map(st => {
+                    const s = cursor;
+                    const e = cursor + st.hours;
+                    cursor = e;
+                    return { label: st.label, start: s, end: e, color: st.color || 'blue' };
+                });
+                return { label: stage.label, start: steps[0].start, end: steps[steps.length - 1].end, steps };
+            });
+            const totalH = cursor;
+            const axis = document.createElement('div');
+            axis.className = 'gantt-axis';
+            const tickStep = totalH <= 8 ? 1 : (totalH <= 16 ? 2 : 4);
+            const base = new Date();
+            for (let h = 0; h <= totalH; h += tickStep) {
+                const tick = document.createElement('div');
+                tick.className = 'gantt-axis-tick';
+                tick.style.left = Math.round((h / totalH) * 100) + '%';
+                const t = new Date(base.getTime() + h * 3600 * 1000);
+                const hh = String(t.getHours()).padStart(2, '0');
+                const mm = String(t.getMinutes()).padStart(2, '0');
+                tick.textContent = hh + ':' + mm;
+                axis.appendChild(tick);
+            }
+            gantt.appendChild(axis);
+            stagesAbs.forEach(stage => {
+                const row = document.createElement('div');
+                row.className = 'gantt-row';
+                const label = document.createElement('div');
+                label.className = 'gantt-label';
+                label.textContent = stage.label;
+                const wrap = document.createElement('div');
+                wrap.className = 'gantt-stage-wrap';
+                const bar = document.createElement('div');
+                bar.className = 'gantt-stage-bar';
+                bar.style.left = Math.round((stage.start / totalH) * 100) + '%';
+                bar.style.width = Math.round(((stage.end - stage.start) / totalH) * 100) + '%';
+                wrap.appendChild(bar);
+                row.appendChild(label);
+                row.appendChild(wrap);
+                gantt.appendChild(row);
+            });
+            if (simEl._timer) { clearTimeout(simEl._timer); simEl._timer = null; }
+            simEl.innerHTML = '';
+            const simDesc = document.createElement('div');
+            simDesc.textContent = plan.simulation;
+            simDesc.style.marginBottom = '8px';
+            simDesc.style.color = '#cbd5e1';
+            simDesc.style.fontSize = '12px';
+            const mapWrap = document.createElement('div');
+            mapWrap.className = 'sim-map-wrap';
+            const iframe = document.createElement('iframe');
+            iframe.src = 'https://www.google.com/maps?q=25.260555,125.003055&z=6&output=embed';
+            mapWrap.appendChild(iframe);
+            const dot = document.createElement('div');
+            dot.className = 'sim-route-dot';
+            dot.style.animationDuration = (stagesAbs.length ? (stagesAbs[stagesAbs.length-1].end) : 1) + 's';
+            dot.style.animationName = 'routeMove';
+            mapWrap.appendChild(dot);
+            const startLab = document.createElement('div');
+            startLab.className = 'sim-label';
+            startLab.style.left = '10%';
+            startLab.textContent = '起飞点';
+            mapWrap.appendChild(startLab);
+            const targetLab = document.createElement('div');
+            targetLab.className = 'sim-label';
+            targetLab.style.left = '80%';
+            targetLab.textContent = '目标点';
+            mapWrap.appendChild(targetLab);
+            const status = document.createElement('div');
+            status.style.marginTop = '8px';
+            status.style.fontSize = '12px';
+            status.style.color = '#94a3b8';
+            simEl.appendChild(simDesc);
+            simEl.appendChild(mapWrap);
+            simEl.appendChild(status);
+            const flat = stagesAbs.flatMap(st => st.steps.map(s => ({ label: s.label, hours: (s.end - s.start) })));
+            function advance(i) {
+                status.textContent = '当前阶段：' + flat[i].label;
+                if (i + 1 < flat.length) {
+                    simEl._timer = setTimeout(() => advance(i + 1), flat[i].hours * 1000);
+                }
+            }
+            if (flat.length > 0) advance(0);
+        }
+        function moveStage(index, dir) {
+            const plan = window._currentPlanObj;
+            if (!plan) return;
+            const ni = index + dir;
+            if (ni < 0 || ni >= plan.timelineStages.length) return;
+            const arr = plan.timelineStages;
+            const tmp = arr[index];
+            arr[index] = arr[ni];
+            arr[ni] = tmp;
+            populatePlanEditPanel();
+            rerenderCurrentPlan();
+        }
+        function deleteStage(index) {
+            const plan = window._currentPlanObj;
+            if (!plan) return;
+            plan.timelineStages.splice(index, 1);
+            populatePlanEditPanel();
+            rerenderCurrentPlan();
+        }
         function openModal() {
             const data = typeof intelData !== 'undefined' ? intelData[currentIntelIndex] : null;
             if (!data) return;
@@ -1967,6 +2342,98 @@
                         '<div class="detail-item"><div class="d-dot"></div><div class="d-content"><strong>政治背景</strong><p>涉台言论升温，提高威慑展示概率。</p></div></div>'+
                         '<div class="detail-item"><div class="d-dot"></div><div class="d-content"><strong>概率输出</strong><p>综合输出：60/30/10 概率分布。</p></div></div>'
                 };
+            } else if (title === '东部战区美国两艘舰艇过航台湾海峡') {
+                cfg = {
+                    tagText: '军事行动',
+                    tagClass: 'green-tag',
+                    title: '东部战区美国两艘舰艇过航台湾海峡',
+                    time: '2025-11-23 08:10:00 ~ 2025-11-23 16:30:00',
+                    level: '<span class="badge-red">高等威胁</span>',
+                    stats: '数据总量 <span class="highlight">4286</span> 条 &nbsp;|&nbsp; 媒体总量 <span class="highlight">76</span> 个',
+                    summary: '东部战区监测到两艘美国军舰在冲绳岛附近海域（25°15\'38\"N 125°00\'11\"E）后，沿既定航路过航台湾海峡。综合无人机与卫星影像识别，目标为“鲍迪奇”号海洋测量船与拉尔夫·约翰逊号驱逐舰。当前评估为高等威胁，建议加强海空联合监视与战备部署。',
+                    tags: ['美国军舰','台海过航','战备提升'],
+                    images: ['实时监控3.png','船.png'],
+                    mapSrc: 'https://maps.google.com/maps?q=24.8242,125.0264&t=h&z=9&ie=UTF8&iwloc=&output=embed',
+                    coords: 'E 125.0264, N 24.8242',
+                    sourceRaw:
+                        '<div class="trace-raw-item"><span><i class="fa-solid fa-satellite blue-icon"></i> IGSO_SAR_20251123_021</span><span class="raw-tag">影像</span></div>'+
+                        '<div class="trace-raw-item"><span><i class="fa-solid fa-wifi green-icon"></i> Naval_Radar_TW_Chan_12</span><span class="raw-tag">信号</span></div>'+
+                        '<div class="trace-raw-item"><span><i class="fa-solid fa-newspaper orange-icon"></i> Intl_News_Flash_US_Navy</span><span class="raw-tag">开源</span></div>'+
+                        '<div class="trace-raw-item"><span><i class="fa-brands fa-twitter orange-icon"></i> #TaiwanStrait_Transits</span><span class="raw-tag">开源</span></div>'+
+                        '<div class="trace-raw-item"><span><i class="fa-solid fa-user-secret purple-icon"></i> HUMINT_Port_Report_03</span><span class="raw-tag">人工</span></div>',
+                    sourceEvidence:
+                        '<div class="trace-card small-card">'+
+                            '<div class="t-icon icon-sat"><i class="fa-solid fa-satellite"></i></div>'+
+                            '<div class="t-content">'+
+                                '<div class="t-title">IGSO/SAR 联合影像</div>'+
+                                '<div class="t-desc">在 25°15\'38\"N 125°00\'11\"E 区域清晰识别两艘舰艇航迹</div>'+
+                            '</div>'+
+                        '</div>'+
+                        '<div class="trace-card small-card">'+
+                            '<div class="t-icon icon-sig"><i class="fa-solid fa-wifi"></i></div>'+
+                            '<div class="t-content">'+
+                                '<div class="t-title">海上雷达链路</div>'+
+                                '<div class="t-desc">多站点同步跟踪，回传航速与航向数据</div>'+
+                            '</div>'+
+                        '</div>',
+                    sourceFusion:
+                        '<div class="fusion-dot-right"></div>'+
+                        '<div class="t-icon icon-fusion"><i class="fa-solid fa-brain"></i></div>'+
+                        '<div class="t-title" style="font-size: 18px;">多模态情报融合引擎</div>'+
+                        '<div class="t-desc">融合无人机回传与卫星影像，确认两舰型号并评估过航意图。</div>'+
+                        '<div class="fusion-stats">'+
+                            '<div class="stat-item"><span class="stat-val">95%</span>识别置信度</div>'+
+                            '<div class="stat-item"><span class="stat-val">7</span>数据源</div>'+
+                            '<div class="stat-item"><span class="stat-val">12ms</span>延迟</div>'+
+                        '</div>',
+                    sourceResult:
+                        '<div class="result-header">'+
+                            '<span class="result-tag">两舰过航态势评估</span>'+
+                            '<span style="font-size: 12px; color: #991b1b;"><i class="fa-solid fa-triangle-exclamation"></i> 高等威胁</span>'+
+                        '</div>'+
+                        '<div class="result-body">'+
+                            '<h4 class="result-title">美国海军两舰过航台湾海峡</h4>'+
+                            '<div class="result-meta">'+
+                                '<span><i class="fa-regular fa-clock"></i> 2025-11-23</span>'+
+                                '<span><i class="fa-solid fa-location-dot"></i> 台湾海峡北段</span>'+
+                            '</div>'+
+                            '<div class="result-desc">结合动态航迹与多源识别结果，研判为针对台海的抵近侦察与存在展示行为，需提升海空监视强度与预警等级。</div>'+
+                            '<div class="result-actions">'+
+                                '<button class="btn-report"><i class="fa-solid fa-file-pdf"></i> 生成研判报告</button>'+
+                            '</div>'+
+                        '</div>',
+                    reasonStep1Card:
+                        '<div class="card-icon"><i class="fa-solid fa-map-location-dot"></i></div>'+
+                        '<div class="card-content">'+
+                            '<h4>两舰航迹确认</h4>'+
+                            '<p>结合卫星与无人机数据，确认过航轨迹与时间窗。</p>'+
+                        '</div>',
+                    reasonStep2Card:
+                        '<div class="card-icon"><i class="fa-solid fa-brain"></i></div>'+
+                        '<div class="card-content">'+
+                            '<h4>意图评估与模板匹配</h4>'+
+                            '<div class="progress-bar"><div class="fill" style="width: 82%">82% 匹配度</div></div>'+
+                            '<p class="sub-text">与历史过航与抵近侦察模式相符</p>'+
+                        '</div>',
+                    reasonStep3Card:
+                        '<div class="card-icon"><i class="fa-solid fa-crosshairs"></i></div>'+
+                        '<div class="card-content">'+
+                            '<h4>未来 24 小时预测</h4>'+
+                            '<ul class="prediction-list">'+
+                                '<li><i class="fa-solid fa-circle-exclamation text-red"></i> 55% 概率：持续抵近侦察并保持航迹</li>'+
+                                '<li><i class="fa-solid fa-triangle-exclamation text-orange"></i> 35% 概率：伴随多域演训与联合行动</li>'+
+                                '<li><i class="fa-solid fa-info-circle text-blue"></i> 10% 概率：短时过航后远离</li>'+
+                            '</ul>'+
+                        '</div>'
+                };
+                const lat = 24.8242, lng = 125.0264;
+                shipFocusLat = lat; shipFocusLng = lng;
+                const icon = L.divIcon({ className: 'ship-marker', html: '<div style="font-size: 24px; color: #ef4444; filter: drop-shadow(0 0 5px rgba(239, 68, 68, 0.8));"><i class="fa-solid fa-ship"></i></div>', iconSize: [30,30], iconAnchor: [15,15] });
+                if (window.ship1Marker) { window.ship1Marker.setLatLng([lat, lng]); } else { window.ship1Marker = L.marker([lat, lng], {icon}).addTo(map); }
+                if (window.ship2Marker) { window.ship2Marker.setLatLng([lat, lng]); } else { window.ship2Marker = L.marker([lat, lng], {icon}).addTo(map); }
+                if (window.ship1Marker) window.ship1Marker.on('click', () => openShipPage('A'));
+                if (window.ship2Marker) window.ship2Marker.on('click', () => openShipPage('B'));
+                map.flyTo([lat, lng], 9, { animate: true, duration: 1.2 });
             } else {
                 return;
             }
@@ -2088,6 +2555,8 @@
                 selectUav(ch4Opt, 'uav-01');
             }
 
+            if (typeof recalcUavRouteStats === 'function') recalcUavRouteStats();
+
             // Mark chosen plan as selected
             if (window._currentPlanId) {
                 document.querySelectorAll('#solutionCard .uav-option').forEach(opt => opt.classList.remove('selected'));
@@ -2099,10 +2568,87 @@
             closePlanDetail();
         }
 
+        function recalcUavRouteStats() {
+            if (typeof uavBases === 'undefined' || typeof currentTargetLat === 'undefined') return;
+            function kmPerDeg(lat) { return { lat: 111.32, lon: 111.32 * Math.cos(lat * Math.PI / 180) }; }
+            function pathKm(points) {
+                let km = 0;
+                for (let i = 0; i < points.length - 1; i++) {
+                    const a = points[i], b = points[i + 1];
+                    const k = kmPerDeg((a[0] + b[0]) / 2);
+                    const dx = (b[0] - a[0]) * k.lat;
+                    const dy = (b[1] - a[1]) * k.lon;
+                    km += Math.sqrt(dx*dx + dy*dy);
+                }
+                return km;
+            }
+            const ids = ['uav-01','uav-02','uav-03'];
+            const dists = [];
+            ids.forEach(id => {
+                const base = uavBases[id];
+                if (!base) return;
+                const outbound = [[base.lat, base.lng]];
+                if (Array.isArray(window._uavWaypoints) && window._uavWaypoints.length > 0) {
+                    outbound.push(...window._uavWaypoints);
+                }
+                outbound.push([currentTargetLat, currentTargetLng]);
+                const inbound = [...outbound].reverse();
+                const totalKm = pathKm(outbound) + pathKm(inbound);
+                dists.push({ id, km: totalKm });
+                const el = document.getElementById('dist-uav-' + id.split('-')[1]);
+                if (el) el.textContent = Math.round(totalKm) + 'km';
+            });
+            dists.sort((a,b) => a.km - b.km);
+            const best = dists[0];
+            ['01','02','03'].forEach(suf => {
+                const badge = document.getElementById('badge-uav-' + suf);
+                if (badge) {
+                    badge.className = 'recommend-badge';
+                    badge.textContent = '';
+                    badge.style.display = 'none';
+                }
+            });
+            if (best) {
+                const suf = best.id.split('-')[1];
+                const timeBadge = document.getElementById('badge-uav-' + suf);
+                if (timeBadge) {
+                    timeBadge.textContent = '时间最优';
+                    timeBadge.className = 'recommend-badge rec-time';
+                    timeBadge.style.display = 'inline-block';
+                }
+            }
+            const safetyBadge = document.getElementById('badge-uav-02');
+            if (safetyBadge) {
+                if (best && best.id === 'uav-02') {
+                    safetyBadge.textContent = '时间/安全最优';
+                } else {
+                    safetyBadge.textContent = '安全性最优';
+                }
+                safetyBadge.className = 'recommend-badge rec-safety';
+                safetyBadge.style.display = 'inline-block';
+            }
+            const costBadge = document.getElementById('badge-uav-03');
+            if (costBadge) {
+                if (best && best.id === 'uav-03') {
+                    costBadge.textContent = '时间/效费比最优';
+                } else {
+                    costBadge.textContent = '效费比最优';
+                }
+                costBadge.className = 'recommend-badge rec-cost';
+                costBadge.style.display = 'inline-block';
+            }
+        }
         // Show Intel Popup on Load
         window.addEventListener('load', () => {
             setTimeout(() => {
                 document.getElementById('intelPopup').classList.add('show');
+                
+                const locSel = document.getElementById('monitor-location-select');
+                if (locSel) {
+                    locSel.value = 'loc-okinawa-sawada';
+                    const change = locSel.onchange;
+                    if (typeof change === 'function') change();
+                }
                 
                 // Simulate receiving new intel
                 const newIntel = {
@@ -2110,14 +2656,14 @@
                     time: "刚刚",
                     threat: "高等威胁",
                     image: "images/船.png",
-                    desc: "东部战区卫星传回SAR影像中拍摄到两艘舰艇出现在冲绳岛附近海域25°15'38\"N 125°00'11\"E，并正在航向台湾海峡，两艘美国军舰初步识别为驱逐舰和海洋测量船。"
+                    desc: "东部战区卫星传回SAR影像中拍摄到两艘舰艇出现在冲绳岛附近海域24°49'27\"N 125°01'35\"E，并正在航向台湾海峡，两艘美国军舰初步识别为驱逐舰和海洋测量船。"
                 };
 
                 // Add Map Markers for the Ships (25°15'38"N 125°00'11"E)
                 // Lat: 25 + 15/60 + 38/3600 = 25.2606
                 // Lng: 125 + 00/60 + 11/3600 = 125.0031
-                const shipLat = 25.2606;
-                const shipLng = 125.0031;
+                const shipLat = 24.8242;
+                const shipLng = 125.0264;
                 
                 // Store for focus function
                 shipFocusLat = shipLat;
@@ -2158,7 +2704,10 @@
                             <span style="color: #f59e0b; font-weight: bold;">45%</span>
                         </div>
                     </div>
-                `, {permanent: true, direction: 'left', opacity: 1, className: 'custom-ship-tooltip', offset: [-15, 0]}).openTooltip();
+                `, {permanent: true, direction: 'left', opacity: 1, className: 'custom-ship-tooltip', offset: [-15, 0], interactive: true}).openTooltip();
+                ship1Marker.on('click', () => openShipPage('A'));
+                const t1 = ship1Marker.getTooltip();
+                if (t1) t1.on('click', () => openShipPage('A'));
                 
                 // Ship 2 (Offset slightly)
                 window.ship2Marker = L.marker([shipLat + 0.005, shipLng + 0.008], {icon: shipIcon}).addTo(map);
@@ -2177,7 +2726,10 @@
                             <span style="color: #f59e0b; font-weight: bold;">30%</span>
                         </div>
                     </div>
-                `, {permanent: true, direction: 'right', opacity: 1, className: 'custom-ship-tooltip', offset: [15, 0]}).openTooltip();
+                `, {permanent: true, direction: 'right', opacity: 1, className: 'custom-ship-tooltip', offset: [15, 0], interactive: true}).openTooltip();
+                ship2Marker.on('click', () => openShipPage('B'));
+                const t2click = ship2Marker.getTooltip();
+                if (t2click) t2click.on('click', () => openShipPage('B'));
 
                 // Add CSS for custom tooltip to remove default styles
                 const style = document.createElement('style');
@@ -2204,15 +2756,21 @@
                 // Target: Taitung Offshore (East of Taiwan) ~22.8, 121.5
                 // Path must stay east of Taiwan island to avoid land
                 
+                const startPt = [24.8242, 125.0264]; // 24°49'27"N 125°01'35"E
                 const pathPoints = [
-                    [25.2606, 125.0031], // Start
+                    startPt, // Start (发现目标)
                     [25.3872, 121.5733], // WP1: 25°23'14"N 121°34'24"E
                     [25.1303, 120.9686], // WP2: 25°07'49"N 120°58'07"E
                     [24.2811, 120.2258]  // End: 24°16'52"N 120°13'33"E (彰化县附近海域)
                 ];
+                const a = window.ship1Marker ? window.ship1Marker.getLatLng() : null;
+                const b = window.ship2Marker ? window.ship2Marker.getLatLng() : null;
+                const vizPoints = (a && b)
+                    ? [startPt, [a.lat, a.lng], [b.lat, b.lng], pathPoints[1], pathPoints[2], pathPoints[3]]
+                    : pathPoints;
 
                 // Draw Path Line
-                const pathLine = L.polyline(pathPoints, {
+                const pathLine = L.polyline(vizPoints, {
                     color: '#ef4444',
                     weight: 2,
                     dashArray: '10, 10',
@@ -2425,8 +2983,8 @@
 
             // Fill Inputs
             const baseCoords = `${base.lat.toFixed(4)}°N, ${base.lng.toFixed(4)}°E`;
-            startCoordsInput.value = baseCoords;
-            returnCoordsInput.value = baseCoords; // Assuming return to same base
+            if (startCoordsEl) startCoordsEl.textContent = baseCoords;
+            if (returnCoordsEl) returnCoordsEl.textContent = baseCoords;
 
             // Draw Outbound Path (Base -> Target)
             const outboundPath = [
@@ -2666,6 +3224,89 @@
             document.getElementById('uav-detail-modal').style.display = 'none';
             document.getElementById('overlay-backdrop').style.display = 'none';
         }
+        function openShipDetails(which) {
+            const modal = document.getElementById('shipDetailModal');
+            const overlay = document.getElementById('overlay-ship');
+            const nameEl = document.getElementById('ship-detail-name');
+            const typeEl = document.getElementById('ship-detail-type');
+            const displEl = document.getElementById('ship-detail-displ');
+            const dimEl = document.getElementById('ship-detail-dim');
+            const speedEl = document.getElementById('ship-detail-speed');
+            const equipEl = document.getElementById('ship-detail-equip');
+            const extraEl = document.getElementById('ship-detail-extra');
+            const titleEl = document.getElementById('ship-detail-title');
+            if (!modal || !overlay) return;
+            if (which === 'A') {
+                titleEl.textContent = '目标 A · DDG-114';
+                nameEl.textContent = 'USS Ralph Johnson (DDG-114)';
+                typeEl.textContent = '阿利·伯克级 导弹驱逐舰 Flight IIA';
+                displEl.textContent = '约 9,200 吨';
+                dimEl.textContent = '长 155.3 m · 宽 20.1 m';
+                speedEl.textContent = '30+ 节';
+                equipEl.textContent = 'VLS(96) · SM-2/SM-6 · Tomahawk · ASROC · 127mm主炮 · CIWS · SPY-1D(V)';
+                if (extraEl) extraEl.innerHTML = '<div style="font-weight:bold;color:#60a5fa;">基本信息</div><div>舷号：DDG-114；母港：日本横须贺（第七舰队）</div><div>命名来源：越战荣誉勋章获得者 Ralph H. Johnson</div><div style="margin-top:8px;font-weight:bold;color:#60a5fa;">技术参数</div><div>吃水：9.3 m；续航力：4200 海里@20节；乘员：军官22，士官兵308</div><div>动力：四台LM-2500-30燃气涡轮机，总功率约10万马力，双轴CRP双舵</div><div style="margin-top:8px;font-weight:bold;color:#60a5fa;">电子/作战系统</div><div>主雷达：AN/SPY-1D(V)；辅雷达：AN/SPS-67(V)3、AN/SPS-64(V)9</div><div>火控：AN/SPG-62×3；声纳：AN/SQS-53C、AN/SQR-19</div><div>电子战：AN/SLQ-32(V)3、MK-36干扰弹、AN/SLQ-25、Prairie Masker</div><div>作战系统：宙斯盾（Aegis）</div><div style="margin-top:8px;font-weight:bold;color:#60a5fa;">武器装备</div><div>127mm MK-45×1；MK-41 VLS（96单元）；鱼叉×8；CIWS×2；MK-38×2；12.7mm机枪×4；MK-32鱼雷×2</div><div style="margin-top:8px;font-weight:bold;color:#60a5fa;">行动经历</div><div>2019：第5舰队防空与海上威慑巡逻</div><div>2022–2024：南海“航行自由行动”、多国联合演练</div>';
+            } else {
+                titleEl.textContent = '目标 B · T-AGS 62';
+                nameEl.textContent = 'USNS Bowditch (T-AGS 62)';
+                typeEl.textContent = '海洋测量船 · Survey Ship';
+                displEl.textContent = '约 4,762 吨';
+                dimEl.textContent = '长 ~100 m · 宽 ~18 m';
+                speedEl.textContent = '约 16 节';
+                equipEl.textContent = '多波束测深 · 拖曳阵列 · AUV · ADCP · 磁力/重力仪（无武器装备）';
+                if (extraEl) extraEl.innerHTML = '<div style="font-weight:bold;color:#60a5fa;">基本信息</div><div>舰级：探路者级海洋地理勘测船；舷号：T-AGS 62；交付/服役：1996年</div><div>建造商：Halter Marine；运营：MSC</div><div>编制：约25名平民船员 + 30余名技术/科研人员</div><div style="margin-top:8px;font-weight:bold;color:#60a5fa;">技术参数</div><div>全长：100.1 m；舷宽：17.7 m；满载排水量：4,762 吨</div><div>动力：柴-电推进，6×柴油发电机、2×电机、双轴，首助推器；续航：12,000 海里@12节；自持力：~30天</div><div style="margin-top:8px;font-weight:bold;color:#60a5fa;">任务与设备</div><div>多波束回声测深仪：1米级海底地形；拖曳声呐阵列：潜艇声纹/舰噪；AUV：深海测绘</div><div>ADCP：水流速度/方向/温度/盐度；磁力/重力仪：沉船/电缆/地质构造（明确无武器装备）</div><div style="margin-top:8px;font-weight:bold;color:#60a5fa;">历史任务</div><div>南海高强度常态作业：西沙/中沙周边，长期绘制海底地形与声学环境</div><div>2016-12-15：苏比克湾西北约50海里，无人滑翔器被中方打捞后归还</div><div>2025-02：与DDG-114协同过航台海；2025-05：澎湖西南约70km与“海洋二十九号”对峙后撤离</div>';
+            }
+            modal.style.display = 'flex';
+            overlay.style.display = 'block';
+        }
+        function closeShipDetails() {
+            document.getElementById('shipDetailModal').style.display = 'none';
+            document.getElementById('overlay-ship').style.display = 'none';
+        }
+        function openShipPage(which) {
+            const page = document.getElementById('shipDetailPage');
+            const titleEl = document.getElementById('ship-page-title');
+            const bodyEl = document.getElementById('ship-page-body');
+            if (!page || !titleEl || !bodyEl) return;
+            if (which === 'A') {
+                titleEl.textContent = 'USS Ralph Johnson (DDG-114)';
+                bodyEl.innerHTML =
+                    '<div style="margin-bottom:12px;color:#60a5fa;font-weight:bold;">基本信息</div>'+
+                    '<div>舰级：阿利·伯克级 Flight IIA；舷号：DDG-114；母港：日本横须贺（第七舰队）</div>'+
+                    '<div>命名：越战荣誉勋章获得者 Ralph H. Johnson；建造：Huntington Ingalls</div>'+
+                    '<div style="margin:12px 0;color:#60a5fa;font-weight:bold;">技术参数</div>'+
+                    '<div>长155m · 宽20.4m · 吃水9.3m · 满载约9200吨 · 最高航速32节 · 续航4200海里@20节</div>'+
+                    '<div>乘员：军官22，士官兵308；动力：LM-2500-30×4，总功率约10万马力，双轴CRP双舵</div>'+
+                    '<div style="margin:12px 0;color:#60a5fa;font-weight:bold;">电子/作战系统</div>'+
+                    '<div>主雷达：AN/SPY-1D(V)；辅雷达：AN/SPS-67(V)3、AN/SPS-64(V)9；火控：AN/SPG-62×3</div>'+
+                    '<div>声纳：AN/SQS-53C、AN/SQR-19；电子战：AN/SLQ-32(V)3、MK-36、AN/SLQ-25、Prairie Masker</div>'+
+                    '<div>作战系统：宙斯盾（Aegis）</div>'+
+                    '<div style="margin:12px 0;color:#60a5fa;font-weight:bold;">武器装备</div>'+
+                    '<div>127mm MK-45×1；MK-41 VLS（96单元）；鱼叉×8；CIWS×2；MK-38×2；12.7mm机枪×4；MK-32鱼雷×2</div>'+
+                    '<div style="margin:12px 0;color:#60a5fa;font-weight:bold;">行动经历</div>'+
+                    '<div>2019：第5舰队防空与海上威慑巡逻；2022–2024：南海“航行自由行动”、多国联合演练</div>'+
+                    '<div>2024–2025：多次穿越台海，与T-AGS 62协同收集水文与声学数据</div>';
+            } else {
+                titleEl.textContent = 'USNS Bowditch (T-AGS 62)';
+                bodyEl.innerHTML =
+                    '<div style="margin-bottom:12px;color:#60a5fa;font-weight:bold;">基本信息</div>'+
+                    '<div>舰级：探路者级海洋地理勘测船；舷号：T-AGS 62；交付/服役：1996年</div>'+
+                    '<div>建造：Halter Marine；运营：MSC；编制：约25名平民船员+30余名技术/科研人员</div>'+
+                    '<div style="margin:12px 0;color:#60a5fa;font-weight:bold;">技术参数</div>'+
+                    '<div>长100.1m · 宽17.7m · 满载4762吨 · 柴电推进：6×柴油发电机、2×电机、双轴；首助推器</div>'+
+                    '<div>最大航速16节 · 续航12000海里@12节 · 自持力约30天</div>'+
+                    '<div style="margin:12px 0;color:#60a5fa;font-weight:bold;">任务与设备</div>'+
+                    '<div>多波束测深仪：1米级海底地形；拖曳阵列：潜艇声纹/舰噪；AUV：深海测绘</div>'+
+                    '<div>ADCP：水流速度/方向/温度/盐度；磁力/重力仪：沉船/电缆/地质构造（无武器装备）</div>'+
+                    '<div style="margin:12px 0;color:#60a5fa;font-weight:bold;">历史任务</div>'+
+                    '<div>南海高强度常态作业：西沙/中沙周边，长期绘制海底地形与声学环境</div>'+
+                    '<div>2016-12-15：苏比克湾西北约50海里，无人滑翔器被中方打捞后归还</div>'
+            }
+            page.style.display = 'flex';
+        }
+        function closeShipPage() {
+            const page = document.getElementById('shipDetailPage');
+            if (page) page.style.display = 'none';
+        }
 
         // Map Initialization (Leaflet)
         // Coords: 24.0589, 120.4333
@@ -2706,8 +3347,8 @@
 
         // Selection Logic
          const targetInput = document.getElementById('target-coords');
-         const startCoordsInput = document.getElementById('uav-start-coords');
-         const returnCoordsInput = document.getElementById('uav-return-coords');
+         const startCoordsEl = document.getElementById('uav-start-coords');
+         const returnCoordsEl = document.getElementById('uav-return-coords');
          let selectionLayerGroup = L.layerGroup().addTo(map);
          let flightPathLayerGroup = L.layerGroup().addTo(map);
          let waypointLayerGroup = L.layerGroup().addTo(map);
@@ -2719,8 +3360,8 @@
 
          // UAV Base Locations (Approximate for demo)
          const uavBases = {
-             'uav-01': { lat: 24.25, lng: 118.10, name: 'Base A (Xiamen)' },
-             'uav-02': { lat: 25.05, lng: 119.50, name: 'Base B (Pingtan)' },
+             'uav-01': { lat: 25.05, lng: 119.50, name: 'Base B (Pingtan)' },
+             'uav-02': { lat: 24.25, lng: 118.10, name: 'Base A (Xiamen)' },
              'uav-03': { lat: 23.50, lng: 117.00, name: 'Base C (Shantou)' }
          };
 
@@ -2770,8 +3411,8 @@
             analyzeRecommendations(lat, lng);
             
             // Clear UAV selection inputs
-            startCoordsInput.value = '';
-            returnCoordsInput.value = '';
+            if (startCoordsEl) startCoordsEl.textContent = '';
+            if (returnCoordsEl) returnCoordsEl.textContent = '';
             document.querySelectorAll('.uav-option').forEach(opt => opt.classList.remove('selected'));
         });
 
@@ -2996,7 +3637,7 @@
     </script>
     <script>
         const MONITOR_DB_KEY = 'monitor_db';
-        const MONITOR_DB_VERSION = 3;
+        const MONITOR_DB_VERSION = 4;
         function initMonitorDB() {
             try {
                 const raw = localStorage.getItem(MONITOR_DB_KEY);
@@ -3020,6 +3661,9 @@
                     { id: 'loc-taichung-port', name: '15 Yucai Xihu 彰化县', lat: 23.965833, lng: 120.482778, altitude: 17.31, cameras: [
                         { id: 'CAM-03', name: '路口北向', image: '实时监控2.png' },
                         { id: 'CAM-04', name: '路口南向', image: '实时监控2南.png' }
+                    ]},
+                    { id: 'loc-okinawa-sawada', name: 'Sawada Irabu Okinawa 日本冲绳县', lat: 24.839722, lng: 125.139444, altitude: 6.56, cameras: [
+                        { id: 'CAM-05', name: '现场监控', image: '实时监控3.png' }
                     ]}
                 ]
             };
@@ -3052,6 +3696,19 @@
                     { id: 'CAM-02', name: '路口南向', image: '实时监控南.png' }
                 ];
             }
+            const locOkinawa = db.locations.find(l => l.id === 'loc-okinawa-sawada');
+            if (!locOkinawa) {
+                db.locations.push({
+                    id: 'loc-okinawa-sawada',
+                    name: 'Sawada Irabu Okinawa 日本冲绳县',
+                    lat: 24.839722,
+                    lng: 125.139444,
+                    altitude: 6.56,
+                    cameras: [
+                        { id: 'CAM-05', name: '现场监控', image: '实时监控3.png' }
+                    ]
+                });
+            }
             return db;
         }
         function renderMonitorSelectors() {
@@ -3080,7 +3737,7 @@
             const locSel = document.getElementById('monitor-location-select');
             db.locations.forEach(loc => {
                 const m = L.marker([loc.lat, loc.lng], { icon: blueMarkerIcon }).addTo(monitorLocationsLayerGroup);
-                m.bindTooltip(loc.name, {permanent: true, direction: 'top', offset: [0, -10], className: 'custom-ship-tooltip'}).openTooltip();
+                m.bindTooltip(loc.name, {direction: 'top', offset: [0, -10], className: 'custom-ship-tooltip'});
                 m.on('click', () => {
                     if (locSel) {
                         locSel.value = loc.id;
@@ -3115,7 +3772,7 @@
             if (typeof monitorLayerGroup !== 'undefined') {
                 monitorLayerGroup.clearLayers();
                 const m = L.marker([loc.lat, loc.lng], { icon: blueMarkerIcon }).addTo(monitorLayerGroup);
-                m.bindTooltip(loc.name, {permanent: true, direction: 'top', offset: [0, -10], className: 'custom-ship-tooltip'}).openTooltip();
+                m.bindTooltip(loc.name, {direction: 'top', offset: [0, -10], className: 'custom-ship-tooltip'});
                 map.flyTo([loc.lat, loc.lng], 15, { animate: true, duration: 1.2 });
             }
         }
