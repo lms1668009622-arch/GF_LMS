@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>| 战场情报快判AI系统 </title>
+    <title>| ZZ情报快判AI系统 </title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Leaflet CSS -->
@@ -798,8 +798,8 @@
     <!-- Top Bar -->
     <header class="main-header">
         <div class="brand">
-            <div class="logo-icon"><img src="images/logo.png" alt="Logo" style="height: 20px;"></div> 
-            <span class="brand-text"> | 战场情报快判AI系统</span>
+            <!-- <div class="logo-icon"><img src="images/logo.png" alt="Logo" style="height: 20px;"></div>  -->
+            <span class="brand-text"> | zz情报快判AI系统</span>
         </div>
         <div class="user-profile">
             <div class="avatar">Z</div>
@@ -836,11 +836,11 @@
             <script>
                 const intelData = [
                     {
-                        title: "台湾西部彰化县进入警备状态",
+                        title: "TW西部ZHX进入警备状态",
                         time: "2分钟前",
                         threat: "高等威胁",
                         image: "images/6.png",
-                        desc: "台湾东部战区开展跨昼夜联合演训，结合 IGSO卫星拍摄影像，无侦-7 无人机拍摄视频影像及雷达探测信号，台湾西部彰化县进入警备状态。"
+                        desc: "TW东部战区开展跨昼夜联合演训，结合 IGSO卫星拍摄影像，无侦-7 无人机拍摄视频影像及雷达探测信号，TW西部ZHX进入警备状态。"
                     },
                     {
                         title: "日本西南岛屿军事演练，介入台海威胁加剧",
@@ -885,7 +885,7 @@
                         badge.style.backgroundColor = bg;
                     }
                     if (solBtn) {
-                        const allowed = '东部战区美国两艘舰艇过航台湾海峡';
+                        const allowed = '东部战区美国两艘舰艇过航TW海峡';
                         const enabled = data.title === allowed;
                         solBtn.style.opacity = enabled ? '1' : '0.6';
                         solBtn.style.cursor = enabled ? 'pointer' : 'not-allowed';
@@ -940,7 +940,7 @@
                              
                              <div class="info-row">
                                  <span class="info-label">地理位置 :</span>
-                                 <span class="info-value" id="monitor-location-name">520 复兴路 Lukang 彰化县</span>
+                                 <span class="info-value" id="monitor-location-name">520 复兴路 Lukang ZHX</span>
                              </div>
                              
                              <div class="info-row">
@@ -992,7 +992,7 @@
                         </div>
                          <div class="detail-item">
                             <span class="d-label">情报来源</span>
-                            <span class="d-value">CAM-01 (彰化路网)</span>
+                            <span class="d-value">CAM-01 (ZH路网)</span>
                         </div>
                     </div>
                 </div>
@@ -1131,7 +1131,7 @@
             <div class="monitor-body" style="padding: 15px; color: white; position: relative;">
                 <!-- Title & Time -->
                 <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 5px;">
-                    <h3 id="intelTitle" style="margin: 0; font-size: 18px; font-weight: 500;">台湾西部彰化县进入警备状态</h3>
+                    <h3 id="intelTitle" style="margin: 0; font-size: 18px; font-weight: 500;">TW西部ZHX进入警备状态</h3>
                 </div>
 
                 <!-- Info Row -->
@@ -1174,7 +1174,7 @@
                 <!-- Description Box -->
                 <div style="border: 1px solid #475569; padding: 10px; border-radius: 4px; background: rgba(15, 23, 42, 0.6); position: relative; min-height: 60px; margin-bottom: 40px;">
                     <p id="intelDesc" style="margin: 0; font-size: 13px; line-height: 1.6; color: #e2e8f0; text-align: justify; margin-bottom: 6px;">
-                        台湾东部战区开展跨昼夜联合演训，结合 IGSO卫星拍摄影像，无侦-7 无人机拍摄视频影像及雷达探测信号，台湾西部彰化县进入警备状态。
+                        TW东部战区开展跨昼夜联合演训，结合 IGSO卫星拍摄影像，无侦-7 无人机拍摄视频影像及雷达探测信号，TW西部ZHX进入警备状态。
                     </p>
                     <a id="intelDetailLink" href="javascript:void(0)" onclick="openModal()" style="position: absolute; bottom: 10px; right: 10px; color: #3b82f6; text-decoration: none; font-size: 13px;">&gt;详情</a>
                 </div>
@@ -1196,7 +1196,7 @@
                 <div style="margin-bottom: 12px;">
                     <h4 style="margin: 0 0 6px 0; color: #3b82f6; font-size: 14px; border-left: 3px solid #3b82f6; padding-left: 8px;">意图分析</h4>
                     <p style="margin: 0; font-size: 13px; color: #cbd5e1; line-height: 1.5; text-align: justify;">
-                        两艘舰艇（DDG-114, T-AGS 62）正以 15 节航速向西南方向航行，意图穿越台湾海峡并进行水文数据收集与抵近侦察，试探我方海空防御反应能力。
+                        两艘舰艇（DDG-114, T-AGS 62）正以 15 节航速向西南方向航行，意图穿越TW海峡并进行水文数据收集与抵近侦察，试探我方海空防御反应能力。
                     </p>
                     <div class="intent-list">
                         <div class="intent-item">
@@ -1368,7 +1368,7 @@
                 <div class="modal-header-top">
                     <div class="modal-title">
                         <span class="tag-cat green-tag" id="modal-title-tag">军事行动</span>
-                        <span id="modal-title-text">台湾西部彰化县进入警备状态</span>
+                        <span id="modal-title-text">TW西部ZHX进入警备状态</span>
                     </div>
                     <button class="modal-close" onclick="closeModal()">&times;</button>
                 </div>
@@ -1395,7 +1395,7 @@
                         </div>
                         <div class="info-row">
                             <div class="info-label">情报摘要</div>
-                            <div class="info-value" id="modal-info-summary">据多源情报综合分析，台湾西部彰化县地区出现异常军事调动，进入二级战备状态。监测到大量军用车辆集结，无线电通信频率激增。初步研判为针对近期海上演习的防御性部署，但不排除升级可能。建议加强该区域的持续监控，重点关注沿海雷达站及防空导弹阵地的动态。</div>
+                            <div class="info-value" id="modal-info-summary">据多源情报综合分析，TW西部ZHX地区出现异常军事调动，进入二级战备状态。监测到大量军用车辆集结，无线电通信频率激增。初步研判为针对近期海上演习的防御性部署，但不排除升级可能。建议加强该区域的持续监控，重点关注沿海雷达站及防空导弹阵地的动态。</div>
                         </div>
                         <div class="info-row">
                             <div class="info-label">关联标签</div>
@@ -1403,7 +1403,7 @@
                                 <div class="tag-list" id="modal-info-tags">
                                     <span class="badge-new-text">军事调动</span>
                                     <span class="badge-new-text">战备升级</span>
-                                    <span class="badge-new-text">彰化县</span>
+                                    <span class="badge-new-text">ZHX</span>
                                 </div>
                             </div>
                         </div>
@@ -1457,7 +1457,7 @@
                                     <span class="raw-tag">信号</span>
                                 </div>
                                 <div class="trace-raw-item">
-                                    <span><i class="fa-brands fa-twitter orange-icon"></i> 推特舆情_#彰化_01</span>
+                                    <span><i class="fa-brands fa-twitter orange-icon"></i> 推特舆情_#ZH_01</span>
                                     <span class="raw-tag">开源</span>
                                 </div>
                                 <div class="trace-raw-item">
@@ -1490,7 +1490,7 @@
                                         <div class="t-icon icon-sat"><i class="fa-solid fa-satellite"></i></div>
                                         <div class="t-content">
                                             <div class="t-title">高分卫星 GF-7</div>
-                                            <div class="t-desc">捕获彰化县沿海区域高分辨率光学影像</div>
+                                            <div class="t-desc">捕获ZHX沿海区域高分辨率光学影像</div>
                                         </div>
                                     </div>
                                     <div class="trace-card small-card">
@@ -1530,10 +1530,10 @@
                                         <span style="font-size: 12px; color: #991b1b;"><i class="fa-solid fa-triangle-exclamation"></i> 高威胁</span>
                                     </div>
                                     <div class="result-body">
-                                        <h4 class="result-title">台湾西部彰化县军事异常调动事件</h4>
+                                        <h4 class="result-title">TW西部ZHX军事异常调动事件</h4>
                                         <div class="result-meta">
                                             <span><i class="fa-regular fa-clock"></i> 2025-11-23</span>
-                                            <span><i class="fa-solid fa-location-dot"></i> 彰化县</span>
+                                            <span><i class="fa-solid fa-location-dot"></i> ZHX</span>
                                         </div>
                                         <div class="result-desc">
                                             基于卫星影像、信号截获及人工情报的综合研判，确认该区域正在进行非例行性大规模军事集结。建议立即启动针对性持续监控，并同步通报战区指挥部。
@@ -1559,7 +1559,7 @@
                             <div class="step-card" id="reasoning-step1-card">
                                 <div class="card-icon"><i class="fa-solid fa-map-location-dot"></i></div>
                                 <div class="card-content">
-                                    <h4>彰化县军事异常调动</h4>
+                                    <h4>ZHX军事异常调动</h4>
                                     <p>已确认大规模车辆集结与信号激增。</p>
                                 </div>
                             </div>
@@ -2215,16 +2215,16 @@
             if (!data) return;
             const title = data.title || '';
             let cfg;
-            if (title === '台湾西部彰化县进入警备状态') {
+            if (title === 'TW西部ZHX进入警备状态') {
                 cfg = {
                     tagText: '军事行动',
                     tagClass: 'green-tag',
-                    title: '台湾西部彰化县进入警备状态',
+                    title: 'TW西部ZHX进入警备状态',
                     time: '2025-11-23 06:23:38 ~ 2025-11-24 22:52:38',
                     level: '<span class="badge-red">高等威胁</span>',
                     stats: '数据总量 <span class="highlight">5612</span> 条 | 媒体总量 <span class="highlight">62</span> 个',
-                    summary: '据多源情报综合分析，台湾西部彰化县地区出现异常军事调动，进入二级战备状态。监测到大量军用车辆集结，无线电通信频率激增。初步研判为针对近期海上演习的防御性部署，但不排除升级可能。建议加强该区域的持续监控，重点关注沿海雷达站及防空导弹阵地的动态。',
-                    tags: ['军事调动','战备升级','彰化县'],
+                    summary: '据多源情报综合分析，TW西部ZHX地区出现异常军事调动，进入二级战备状态。监测到大量军用车辆集结，无线电通信频率激增。初步研判为针对近期海上演习的防御性部署，但不排除升级可能。建议加强该区域的持续监控，重点关注沿海雷达站及防空导弹阵地的动态。',
+                    tags: ['军事调动','战备升级','ZHX'],
                     images: ['1.png','2.png','3.png','4.png'],
                     mapSrc: 'https://maps.google.com/maps?q=24.051,120.542&t=h&z=12&ie=UTF8&iwloc=&output=embed',
                     coords: 'E 120.542, N 24.051'
@@ -2342,15 +2342,15 @@
                         '<div class="detail-item"><div class="d-dot"></div><div class="d-content"><strong>政治背景</strong><p>涉台言论升温，提高威慑展示概率。</p></div></div>'+
                         '<div class="detail-item"><div class="d-dot"></div><div class="d-content"><strong>概率输出</strong><p>综合输出：60/30/10 概率分布。</p></div></div>'
                 };
-            } else if (title === '东部战区美国两艘舰艇过航台湾海峡') {
+            } else if (title === '东部战区美国两艘舰艇过航TW海峡') {
                 cfg = {
                     tagText: '军事行动',
                     tagClass: 'green-tag',
-                    title: '东部战区美国两艘舰艇过航台湾海峡',
+                    title: '东部战区美国两艘舰艇过航TW海峡',
                     time: '2025-11-23 08:10:00 ~ 2025-11-23 16:30:00',
                     level: '<span class="badge-red">高等威胁</span>',
                     stats: '数据总量 <span class="highlight">4286</span> 条 &nbsp;|&nbsp; 媒体总量 <span class="highlight">76</span> 个',
-                    summary: '东部战区监测到两艘美国军舰在冲绳岛附近海域（25°15\'38\"N 125°00\'11\"E）后，沿既定航路过航台湾海峡。综合无人机与卫星影像识别，目标为“鲍迪奇”号海洋测量船与拉尔夫·约翰逊号驱逐舰。当前评估为高等威胁，建议加强海空联合监视与战备部署。',
+                    summary: '东部战区监测到两艘美国军舰在冲绳岛附近海域（25°15\'38\"N 125°00\'11\"E）后，沿既定航路过航TW海峡。综合无人机与卫星影像识别，目标为“鲍迪奇”号海洋测量船与拉尔夫·约翰逊号驱逐舰。当前评估为高等威胁，建议加强海空联合监视与战备部署。',
                     tags: ['美国军舰','台海过航','战备提升'],
                     images: ['实时监控3.png','船.png'],
                     mapSrc: 'https://maps.google.com/maps?q=24.8242,125.0264&t=h&z=9&ie=UTF8&iwloc=&output=embed',
@@ -2392,10 +2392,10 @@
                             '<span style="font-size: 12px; color: #991b1b;"><i class="fa-solid fa-triangle-exclamation"></i> 高等威胁</span>'+
                         '</div>'+
                         '<div class="result-body">'+
-                            '<h4 class="result-title">美国海军两舰过航台湾海峡</h4>'+
+                            '<h4 class="result-title">美国海军两舰过航TW海峡</h4>'+
                             '<div class="result-meta">'+
                                 '<span><i class="fa-regular fa-clock"></i> 2025-11-23</span>'+
-                                '<span><i class="fa-solid fa-location-dot"></i> 台湾海峡北段</span>'+
+                                '<span><i class="fa-solid fa-location-dot"></i> TW海峡北段</span>'+
                             '</div>'+
                             '<div class="result-desc">结合动态航迹与多源识别结果，研判为针对台海的抵近侦察与存在展示行为，需提升海空监视强度与预警等级。</div>'+
                             '<div class="result-actions">'+
@@ -2652,11 +2652,11 @@
                 
                 // Simulate receiving new intel
                 const newIntel = {
-                    title: "东部战区美国两艘舰艇过航台湾海峡",
+                    title: "东部战区美国两艘舰艇过航TW海峡",
                     time: "刚刚",
                     threat: "高等威胁",
                     image: "images/船.png",
-                    desc: "东部战区卫星传回SAR影像中拍摄到两艘舰艇出现在冲绳岛附近海域24°49'27\"N 125°01'35\"E，并正在航向台湾海峡，两艘美国军舰初步识别为驱逐舰和海洋测量船。"
+                    desc: "东部战区卫星传回SAR影像中拍摄到两艘舰艇出现在冲绳岛附近海域24°49'27\"N 125°01'35\"E，并正在航向TW海峡，两艘美国军舰初步识别为驱逐舰和海洋测量船。"
                 };
 
                 // Add Map Markers for the Ships (25°15'38"N 125°00'11"E)
@@ -2761,7 +2761,7 @@
                     startPt, // Start (发现目标)
                     [25.3872, 121.5733], // WP1: 25°23'14"N 121°34'24"E
                     [25.1303, 120.9686], // WP2: 25°07'49"N 120°58'07"E
-                    [24.2811, 120.2258]  // End: 24°16'52"N 120°13'33"E (彰化县附近海域)
+                    [24.2811, 120.2258]  // End: 24°16'52"N 120°13'33"E (ZHX附近海域)
                 ];
                 const a = window.ship1Marker ? window.ship1Marker.getLatLng() : null;
                 const b = window.ship2Marker ? window.ship2Marker.getLatLng() : null;
@@ -2803,8 +2803,8 @@
                 // Destination Label
                 destMarker.bindTooltip(`
                     <div style="background: rgba(15, 23, 42, 0.9); border: 1px solid #ef4444; color: white; padding: 6px 10px; border-radius: 4px; font-size: 12px; text-align: center;">
-                        <div style="font-weight: bold; color: #ef4444; margin-bottom: 2px;">彰化县附近海域</div>
-                        <div>目标航段：经 WP1、WP2 抵达彰化</div>
+                        <div style="font-weight: bold; color: #ef4444; margin-bottom: 2px;">ZHX附近海域</div>
+                        <div>目标航段：经 WP1、WP2 抵达ZH</div>
                         <div style="font-size: 10px; color: #94a3b8; margin-top: 2px;">ETA: 12小时后</div>
                     </div>
                 `, {permanent: true, direction: 'bottom', offset: [0, 10], className: 'custom-ship-tooltip'}).openTooltip();
@@ -2833,7 +2833,7 @@
 
         function showSolutionCard() {
             const data = intelData[currentIntelIndex];
-            const allowed = '东部战区美国两艘舰艇过航台湾海峡';
+            const allowed = '东部战区美国两艘舰艇过航TW海峡';
             if (!data || data.title !== allowed) return;
             const solutionCard = document.getElementById('solutionCard');
             if (solutionCard) { solutionCard.style.display = 'flex'; solutionCard.classList.add('slide-in-right'); }
@@ -3180,7 +3180,7 @@
                 desc: '通过融合无人机与卫星影像，确认目标为“鲍迪奇”号海洋测量船与拉尔夫·约翰逊号驱逐舰，预测概率提高至 95%，威胁评估从高降低至中等。'
             };
             intelData.unshift(newIntel);
-            const idx = intelData.findIndex(d => d.title === '东部战区美国两艘舰艇过航台湾海峡');
+            const idx = intelData.findIndex(d => d.title === '东部战区美国两艘舰艇过航TW海峡');
             if (idx !== -1) intelData.splice(idx, 1);
             currentIntelIndex = 0;
             updateIntelDisplay();
@@ -3654,11 +3654,11 @@
             const seed = {
                 version: MONITOR_DB_VERSION,
                 locations: [
-                    { id: 'loc-changhua', name: '520 复兴路 Lukang 彰化县', lat: 24.0589, lng: 120.4333, altitude: 5.68, cameras: [
+                    { id: 'loc-changhua', name: '520 复兴路 Lukang ZHX', lat: 24.0589, lng: 120.4333, altitude: 5.68, cameras: [
                         { id: 'CAM-01', name: '路口北向', image: '实时监控.png' },
                         { id: 'CAM-02', name: '路口南向', image: '实时监控南.png' }
                     ]},
-                    { id: 'loc-taichung-port', name: '15 Yucai Xihu 彰化县', lat: 23.965833, lng: 120.482778, altitude: 17.31, cameras: [
+                    { id: 'loc-taichung-port', name: '15 Yucai Xihu ZHX', lat: 23.965833, lng: 120.482778, altitude: 17.31, cameras: [
                         { id: 'CAM-03', name: '路口北向', image: '实时监控2.png' },
                         { id: 'CAM-04', name: '路口南向', image: '实时监控2南.png' }
                     ]},
@@ -3680,7 +3680,7 @@
             if (!Array.isArray(db.locations)) db.locations = [];
             const locTaichung = db.locations.find(l => l.id === 'loc-taichung-port');
             if (locTaichung) {
-                locTaichung.name = '15 Yucai Xihu 彰化县';
+                locTaichung.name = '15 Yucai Xihu ZHX';
                 locTaichung.lat = 23.965833;
                 locTaichung.lng = 120.482778;
                 locTaichung.altitude = 17.31;
@@ -3778,3 +3778,4 @@
         }
         document.addEventListener('DOMContentLoaded', renderMonitorSelectors);
     </script>
+
