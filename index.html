@@ -49,6 +49,15 @@
             100% { box-shadow: 0 0 0 0 rgba(59, 130, 246, 0); }
         }
 
+        .leaflet-tooltip.nfz-tooltip {
+            background: rgba(15, 23, 42, 0.96);
+            color: #e2e8f0;
+            border: 1px solid #334155;
+            border-radius: 8px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.45);
+            padding: 8px 10px;
+        }
+
         /* Layout Containers */
         .monitor-overlay-panel {
             position: absolute;
@@ -792,6 +801,22 @@
             .map-placeholder { height: 280px; }
             .trace-network { grid-template-columns: 1fr; min-height: 420px; }
         }
+        @media screen and (max-width: 1440px), screen and (max-height: 900px) {
+            .monitor-overlay-panel { top: 12px; left: 12px; }
+            .monitor-top-row { gap: 12px; }
+            .monitor-card { width: 320px; height: 320px; }
+            .detail-panel { width: 280px; height: 360px; }
+            .panel-header { padding: 8px 12px; font-size: 13px; }
+            .panel-body { padding: 12px; font-size: 12px; }
+            .uav-card { width: 320px; padding: 12px; }
+            .uav-header { margin-bottom: 12px; font-size: 13px; }
+            .uav-list-container { max-height: 130px; }
+            #bottom-nav { height: 42px !important; padding: 0 12px !important; }
+            #map-style-controls button { font-size: 11px !important; padding: 5px 9px !important; }
+            .uav-btn { padding: 8px; font-size: 12px; }
+            .reasoning-layout { grid-template-columns: 320px 1fr 320px; min-height: 380px; }
+            .sim-map-wrap { height: 200px; }
+        }
     </style>
 </head>
 <body>
@@ -824,13 +849,16 @@
 
     <div class="map-container">
         <!-- Leaflet Map Container -->
+            <div id="baiduMapContainer" style="position:absolute; inset:0; z-index:0; display:none;"></div>
             <div id="map" style="width: 100%; height: 100%; background: #0f172a; z-index: 1;"></div>
             <div id="bottom-nav" style="position:absolute; left:0; right:0; bottom:0; height:46px; z-index:1002; display:flex; align-items:center; justify-content:space-between; padding:0 16px; background: rgba(15,23,42,0.95); border-top: 1px solid #475569;">
                 <div id="map-style-controls" style="display:flex; gap:6px;">
                     <button id="btn-style-road" onclick="setMapStyle('road')" style="background:#334155; color:white; border:1px solid #475569; border-radius:4px; padding:6px 10px; font-size:12px; cursor:pointer;">道路</button>
                     <button id="btn-style-sat" onclick="setMapStyle('sat')" style="background:#334155; color:white; border:1px solid #475569; border-radius:4px; padding:6px 10px; font-size:12px; cursor:pointer;">卫星</button>
-                    <button id="btn-style-hybrid" onclick="setMapStyle('hybrid')" style="background:#3b82f6; color:white; border:1px solid #60a5fa; border-radius:4px; padding:6px 10px; font-size:12px; cursor:pointer;">混合</button>
-                    <button id="btn-style-terrain" onclick="setMapStyle('terrain')" style="background:#334155; color:white; border:1px solid #475569; border-radius:4px; padding:6px 10px; font-size:12px; cursor:pointer;">地形</button>
+                    <!-- <button id="btn-style-hybrid" onclick="setMapStyle('hybrid')" style="background:#334155; color:white; border:1px solid #475569; border-radius:4px; padding:6px 10px; font-size:12px; cursor:pointer;">混合</button>
+                    <button id="btn-style-terrain" onclick="setMapStyle('terrain')" style="background:#334155; color:white; border:1px solid #475569; border-radius:4px; padding:6px 10px; font-size:12px; cursor:pointer;">地形</button> -->
+                    <!-- <button id="btn-style-bd-road" onclick="setMapStyle('bd_road')" style="background:#334155; color:white; border:1px solid #475569; border-radius:4px; padding:6px 10px; font-size:12px; cursor:pointer;">百度道路</button>
+                    <button id="btn-style-bd-sat" onclick="setMapStyle('bd_sat')" style="background:#334155; color:white; border:1px solid #475569; border-radius:4px; padding:6px 10px; font-size:12px; cursor:pointer;">百度卫星</button> -->
                 </div>
                 <div style="display:flex; align-items:center; gap:10px; color:#cbd5e1; font-size:12px;"><span id="map-status"></span></div>
             </div>
@@ -852,11 +880,11 @@
                         desc: "TW东部战区开展跨昼夜联合演训，结合 IGSO卫星拍摄影像，无侦-7 无人机拍摄视频影像及雷达探测信号，TW西部ZHX进入警备状态。"
                     },
                     {
-                        title: "日本西南岛屿军事演练，介入台海威胁加剧",
+                        title: "日本西南岛屿军事演练，介入TH威胁加剧",
                         time: "10分钟前",
                         threat: "中等威胁",
                         image: "images/1.png",
-                        desc: "日本首相高市早苗近期发表的涉台言论，日本政府在台海问题上频频发声，试图与自身安全挂钩。日本海上自卫队还与美军频繁开展联合军演，军事力量不容忽视。"
+                        desc: "日本首相高市早苗近期发表的涉台言论，日本政府在TH问题上频频发声，试图与自身安全挂钩。日本海上自卫队还与美军频繁开展联合军演，军事力量不容忽视。"
                     }
                 ];
                 let currentIntelIndex = 0;
@@ -2238,15 +2266,15 @@
                     mapSrc: 'https://maps.google.com/maps?hl=zh-CN&q=24.051,120.542&t=h&z=12&ie=UTF8&iwloc=&output=embed',
                     coords: 'E 120.542, N 24.051'
                 };
-            } else if (title === '日本西南岛屿军事演练，介入台海威胁加剧') {
+            } else if (title === '日本西南岛屿军事演练，介入TH威胁加剧') {
                 cfg = {
                     tagText: '政治事件',
                     tagClass: 'purple-tag',
-                    title: '日本西南岛屿军事演练，介入台海威胁加剧',
+                    title: '日本西南岛屿军事演练，介入TH威胁加剧',
                     time: '2025-11-22 06:00:00 ~ 2025-11-24 22:52:38',
                     level: '<span class="badge-orange">中等威胁</span>',
                     stats: '数据总量 <span class="highlight">3712</span> 条 &nbsp;|&nbsp; 媒体总量 <span class="highlight">121</span> 个',
-                    summary: '日本自卫队在西南诸岛海域举行大规模两栖登陆演习，美军部分舰艇参与协同。此举严重加剧台海周边紧张局势，意在展示介入能力。多源情报显示演习区域存在异常电磁信号活动。',
+                    summary: '日本自卫队在西南诸岛海域举行大规模两栖登陆演习，美军部分舰艇参与协同。此举严重加剧TH周边紧张局势，意在展示介入能力。多源情报显示演习区域存在异常电磁信号活动。',
                     tags: ['军事演习','西南诸岛','联合行动'],
                     images: ['1.png','5.png','7.png','8.png'],
                     mapSrc: 'https://maps.google.com/maps?hl=zh-CN&q=26.212,127.680&t=h&z=9&ie=UTF8&iwloc=&output=embed',
@@ -2308,7 +2336,7 @@
                                 '<span><i class="fa-regular fa-clock"></i> 2025-11-22</span>'+
                                 '<span><i class="fa-solid fa-location-dot"></i> 冲绳周边海域</span>'+
                             '</div>'+
-                            '<div class="result-desc">多源融合分析表明，演练具有靠近台海方向的意图展示，存在后续持续演练与联合行动的可能，需加强预警。</div>'+
+                            '<div class="result-desc">多源融合分析表明，演练具有靠近TH方向的意图展示，存在后续持续演练与联合行动的可能，需加强预警。</div>'+
                             '<div class="result-actions">'+
                                 '<button class="btn-report"><i class="fa-solid fa-file-pdf"></i> 生成研判报告</button>'+
                             '</div>'+
@@ -2340,7 +2368,7 @@
                         '<div class="card-content">'+
                             '<h4>未来 24 小时预测</h4>'+
                             '<ul class="prediction-list">'+
-                                '<li><i class="fa-solid fa-circle-exclamation text-red"></i> 60% 概率：靠近台海方向的军事存在增强</li>'+
+                                '<li><i class="fa-solid fa-circle-exclamation text-red"></i> 60% 概率：靠近TH方向的军事存在增强</li>'+
                                 '<li><i class="fa-solid fa-triangle-exclamation text-orange"></i> 30% 概率：连续多日演练并扩大范围</li>'+
                                 '<li><i class="fa-solid fa-info-circle text-blue"></i> 10% 概率：演练降级或结束</li>'+
                             '</ul>'+
@@ -2360,7 +2388,7 @@
                     level: '<span class="badge-red">高等威胁</span>',
                     stats: '数据总量 <span class="highlight">4286</span> 条 &nbsp;|&nbsp; 媒体总量 <span class="highlight">76</span> 个',
                     summary: '东部战区监测到两艘美国军舰在冲绳岛附近海域（25°15\'38\"N 125°00\'11\"E）后，沿既定航路过航TW海峡。综合无人机与卫星影像识别，目标为“鲍迪奇”号海洋测量船与拉尔夫·约翰逊号驱逐舰。当前评估为高等威胁，建议加强海空联合监视与战备部署。',
-                    tags: ['美国军舰','台海过航','战备提升'],
+                    tags: ['美国军舰','TH过航','战备提升'],
                     images: ['实时监控3.png','船.png'],
                     mapSrc: 'https://maps.google.com/maps?hl=zh-CN&q=24.8242,125.0264&t=h&z=9&ie=UTF8&iwloc=&output=embed',
                     coords: 'E 125.0264, N 24.8242',
@@ -2406,7 +2434,7 @@
                                 '<span><i class="fa-regular fa-clock"></i> 2025-11-23</span>'+
                                 '<span><i class="fa-solid fa-location-dot"></i> TW海峡北段</span>'+
                             '</div>'+
-                            '<div class="result-desc">结合动态航迹与多源识别结果，研判为针对台海的抵近侦察与存在展示行为，需提升海空监视强度与预警等级。</div>'+
+                            '<div class="result-desc">结合动态航迹与多源识别结果，研判为针对TH的抵近侦察与存在展示行为，需提升海空监视强度与预警等级。</div>'+
                             '<div class="result-actions">'+
                                 '<button class="btn-report"><i class="fa-solid fa-file-pdf"></i> 生成研判报告</button>'+
                             '</div>'+
@@ -3319,7 +3347,7 @@
                 dimEl.textContent = '长 ~100 m · 宽 ~18 m';
                 speedEl.textContent = '约 16 节';
                 equipEl.textContent = '多波束测深 · 拖曳阵列 · AUV · ADCP · 磁力/重力仪（无武器装备）';
-                if (extraEl) extraEl.innerHTML = '<div style="font-weight:bold;color:#60a5fa;">基本信息</div><div>舰级：探路者级海洋地理勘测船；舷号：T-AGS 62；交付/服役：1996年</div><div>建造商：Halter Marine；运营：MSC</div><div>编制：约25名平民船员 + 30余名技术/科研人员</div><div style="margin-top:8px;font-weight:bold;color:#60a5fa;">技术参数</div><div>全长：100.1 m；舷宽：17.7 m；满载排水量：4,762 吨</div><div>动力：柴-电推进，6×柴油发电机、2×电机、双轴，首助推器；续航：12,000 海里@12节；自持力：~30天</div><div style="margin-top:8px;font-weight:bold;color:#60a5fa;">任务与设备</div><div>多波束回声测深仪：1米级海底地形；拖曳声呐阵列：潜艇声纹/舰噪；AUV：深海测绘</div><div>ADCP：水流速度/方向/温度/盐度；磁力/重力仪：沉船/电缆/地质构造（明确无武器装备）</div><div style="margin-top:8px;font-weight:bold;color:#60a5fa;">历史任务</div><div>南海高强度常态作业：西沙/中沙周边，长期绘制海底地形与声学环境</div><div>2016-12-15：苏比克湾西北约50海里，无人滑翔器被中方打捞后归还</div><div>2025-02：与DDG-114协同过航台海；2025-05：澎湖西南约70km与“海洋二十九号”对峙后撤离</div>';
+                if (extraEl) extraEl.innerHTML = '<div style="font-weight:bold;color:#60a5fa;">基本信息</div><div>舰级：探路者级海洋地理勘测船；舷号：T-AGS 62；交付/服役：1996年</div><div>建造商：Halter Marine；运营：MSC</div><div>编制：约25名平民船员 + 30余名技术/科研人员</div><div style="margin-top:8px;font-weight:bold;color:#60a5fa;">技术参数</div><div>全长：100.1 m；舷宽：17.7 m；满载排水量：4,762 吨</div><div>动力：柴-电推进，6×柴油发电机、2×电机、双轴，首助推器；续航：12,000 海里@12节；自持力：~30天</div><div style="margin-top:8px;font-weight:bold;color:#60a5fa;">任务与设备</div><div>多波束回声测深仪：1米级海底地形；拖曳声呐阵列：潜艇声纹/舰噪；AUV：深海测绘</div><div>ADCP：水流速度/方向/温度/盐度；磁力/重力仪：沉船/电缆/地质构造（明确无武器装备）</div><div style="margin-top:8px;font-weight:bold;color:#60a5fa;">历史任务</div><div>南海高强度常态作业：西沙/中沙周边，长期绘制海底地形与声学环境</div><div>2016-12-15：苏比克湾西北约50海里，无人滑翔器被中方打捞后归还</div><div>2025-02：与DDG-114协同过航TH；2025-05：澎湖西南约70km与“海洋二十九号”对峙后撤离</div>';
             }
             modal.style.display = 'flex';
             overlay.style.display = 'block';
@@ -3350,7 +3378,7 @@
                     '<div>127mm MK-45×1；MK-41 VLS（96单元）；鱼叉×8；CIWS×2；MK-38×2；12.7mm机枪×4；MK-32鱼雷×2</div>'+
                     '<div style="margin:12px 0;color:#60a5fa;font-weight:bold;">任务履历</div>'+
                     '<div>2019：第5舰队防空与海上威慑巡逻；2022–2024：南海“航行自由行动”、多国联合演练</div>'+
-                    '<div>2024–2025：多次穿越台海，与T-AGS 62协同收集水文与声学数据</div>';
+                    '<div>2024–2025：多次穿越TH，与T-AGS 62协同收集水文与声学数据</div>';
             } else {
                 titleEl.textContent = 'USNS Bowditch (T-AGS 62)';
                 bodyEl.innerHTML =
@@ -3382,6 +3410,12 @@
             zoomControl: false, // Custom look
             attributionControl: false
         });
+        map.createPane('boundariesPane');
+        const bp = map.getPane('boundariesPane');
+        if (bp) { bp.style.zIndex = 420; bp.style.pointerEvents = 'none'; }
+        map.createPane('labelPane');
+        const lp = map.getPane('labelPane');
+        if (lp) { lp.style.zIndex = 410; lp.style.pointerEvents = 'none'; }
 
         // Chinese Base Layers
         const layerRoadCN = L.tileLayer('https://mt{s}.google.cn/vt/lyrs=m&x={x}&y={y}&z={z}', { subdomains: '0123', maxZoom: 19 });
@@ -3391,6 +3425,28 @@
         // Global fallbacks
         const layerOSM = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { subdomains: 'abc', maxZoom: 19 });
         const layerEsri = L.tileLayer('https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', { maxZoom: 19 });
+        const layerBoundaries = L.tileLayer('https://services.arcgisonline.com/ArcGIS/rest/services/Reference/World_Boundaries_and_Places/MapServer/tile/{z}/{y}/{x}', { maxZoom: 19, pane: 'boundariesPane', opacity: 1 });
+        const layerLabelsCN = L.tileLayer('https://mt{s}.google.cn/vt/lyrs=h&x={x}&y={y}&z={z}', { subdomains: '0123', maxZoom: 19, pane: 'labelPane' });
+        L.TileLayer.Baidu = L.TileLayer.extend({
+            getTileUrl: function(coords) {
+                const z = this._getZoomForUrl();
+                const offset = Math.pow(2, z - 1);
+                const x = coords.x - offset;
+                const y = coords.y - offset;
+                const data = { x, y, z, s: this._getSubdomain(coords) };
+                return L.Util.template(this._url, data);
+            },
+            options: { subdomains: '0123', maxZoom: 19, crossOrigin: true }
+        });
+        function createBaiduLayer(style, opts) {
+            return new L.TileLayer.Baidu(
+                'https://online{s}.map.bdimg.com/tile/?qt=tile&x={x}&y={y}&z={z}&styles=' + style,
+                Object.assign({}, opts || {})
+            );
+        }
+        const layerBaiduRoad = createBaiduLayer('pl');
+        const layerBaiduSat = createBaiduLayer('s');
+        const layerBaiduHybrid = createBaiduLayer('h', { pane: 'labelPane' });
         function applyBaseLayers(layers) {
             if (Array.isArray(window._mapBaseLayers)) {
                 window._mapBaseLayers.forEach(l => map.removeLayer(l));
@@ -3398,7 +3454,6 @@
             layers.forEach(l => l.addTo(map));
             window._mapBaseLayers = layers;
         }
-        applyBaseLayers([layerHybridCN]);
         function setMapStyle(style) {
             const btns = {
                 road: document.getElementById('btn-style-road'),
@@ -3406,8 +3461,14 @@
                 hybrid: document.getElementById('btn-style-hybrid'),
                 terrain: document.getElementById('btn-style-terrain')
             };
+            const bdBtns = {
+                bd_road: document.getElementById('btn-style-bd-road'),
+                bd_sat: document.getElementById('btn-style-bd-sat')
+            };
             Object.values(btns).forEach(b => { if (b) { b.style.background = '#334155'; b.style.border = '1px solid #475569'; } });
+            Object.values(bdBtns).forEach(b => { if (b) { b.style.background = '#334155'; b.style.border = '1px solid #475569'; } });
             if (style === 'road') {
+                disableBaiduMap();
                 applyBaseLayers([layerRoadCN]);
                 if (btns.road) { btns.road.style.background = '#3b82f6'; btns.road.style.border = '1px solid #60a5fa'; }
                 const s = document.getElementById('map-status'); if (s) s.textContent = '已切换至道路图层';
@@ -3420,9 +3481,10 @@
                     }); 
                 }
             } else if (style === 'sat') {
-                applyBaseLayers([layerSatCN]);
+                disableBaiduMap();
+                applyBaseLayers([layerSatCN, layerLabelsCN]);
                 if (btns.sat) { btns.sat.style.background = '#3b82f6'; btns.sat.style.border = '1px solid #60a5fa'; }
-                const s = document.getElementById('map-status'); if (s) s.textContent = '已切换至卫星图层';
+                const s = document.getElementById('map-status'); if (s) s.textContent = '已切换至卫星图层（中文标注）';
                 const active = window._mapBaseLayers && window._mapBaseLayers[0]; 
                 if (active) { 
                     if (active.off) active.off('tileerror'); 
@@ -3432,6 +3494,7 @@
                     }); 
                 }
             } else if (style === 'terrain') {
+                disableBaiduMap();
                 applyBaseLayers([layerTerrainCN]);
                 if (btns.terrain) { btns.terrain.style.background = '#3b82f6'; btns.terrain.style.border = '1px solid #60a5fa'; }
                 const s = document.getElementById('map-status'); if (s) s.textContent = '已切换至地形图层';
@@ -3443,7 +3506,44 @@
                         const s2 = document.getElementById('map-status'); if (s2) s2.textContent = '地形图层加载失败，已切换至道路'; 
                     }); 
                 }
+            } else if (style === 'bd_road') {
+                if (!enableBaiduMap('road')) {
+                    applyBaseLayers([layerBaiduRoad]);
+                    document.getElementById('baiduMapContainer').style.display = 'none';
+                } else {
+                    clearBaseLayers();
+                    document.getElementById('baiduMapContainer').style.display = 'block';
+                }
+                if (bdBtns.bd_road) { bdBtns.bd_road.style.background = '#3b82f6'; bdBtns.bd_road.style.border = '1px solid #60a5fa'; }
+                const s = document.getElementById('map-status'); if (s) s.textContent = '已接入百度道路图层（MCP）';
+                const active = window._mapBaseLayers && window._mapBaseLayers[0];
+                if (active) {
+                    if (active.off) active.off('tileerror');
+                    active.on('tileerror', function() {
+                        setMapStyle('road');
+                        const s2 = document.getElementById('map-status'); if (s2) s2.textContent = '百度道路加载失败，已切换至道路';
+                    });
+                }
+            } else if (style === 'bd_sat') {
+                if (!enableBaiduMap('sat')) {
+                    applyBaseLayers([layerBaiduSat, layerBaiduHybrid]);
+                    document.getElementById('baiduMapContainer').style.display = 'none';
+                } else {
+                    clearBaseLayers();
+                    document.getElementById('baiduMapContainer').style.display = 'block';
+                }
+                if (bdBtns.bd_sat) { bdBtns.bd_sat.style.background = '#3b82f6'; bdBtns.bd_sat.style.border = '1px solid #60a5fa'; }
+                const s = document.getElementById('map-status'); if (s) s.textContent = '已接入百度卫星图层（中文标注·MCP）';
+                const active = window._mapBaseLayers && window._mapBaseLayers[0];
+                if (active) {
+                    if (active.off) active.off('tileerror');
+                    active.on('tileerror', function() {
+                        applyBaseLayers([layerEsri]);
+                        const s2 = document.getElementById('map-status'); if (s2) s2.textContent = '百度卫星加载失败，已切换至ESRI卫星';
+                    });
+                }
             } else {
+                disableBaiduMap();
                 applyBaseLayers([layerHybridCN]);
                 if (btns.hybrid) { btns.hybrid.style.background = '#3b82f6'; btns.hybrid.style.border = '1px solid #60a5fa'; }
                 const s = document.getElementById('map-status'); if (s) s.textContent = '已切换至混合图层';
@@ -3457,6 +3557,60 @@
                 }
             }
         }
+        function clearBaseLayers() {
+            if (Array.isArray(window._mapBaseLayers)) {
+                window._mapBaseLayers.forEach(l => map.removeLayer(l));
+                window._mapBaseLayers = [];
+            }
+        }
+        function ensureBaiduApi() {
+            if (window.BMapGL) return true;
+            const ak = window.BAIDU_MAP_AK || localStorage.getItem('baiduAk');
+            if (!ak) { const s = document.getElementById('map-status'); if (s) s.textContent = '未配置百度AK，已使用备用瓦片'; return false; }
+            return new Promise(resolve => {
+                const script = document.createElement('script');
+                script.src = 'https://api.map.baidu.com/api?v=1.0&type=webgl&ak=' + ak;
+                script.onload = () => resolve(true);
+                script.onerror = () => resolve(false);
+                document.head.appendChild(script);
+            });
+        }
+        async function enableBaiduMap(mode) {
+            const ok = await ensureBaiduApi();
+            if (!ok) return false;
+            try {
+                if (!window._bdMap) {
+                    window._bdMap = new BMapGL.Map('baiduMapContainer');
+                }
+                const c = map.getCenter();
+                const z = map.getZoom();
+                window._bdMap.centerAndZoom(new BMapGL.Point(c.lng, c.lat), z);
+                if (mode === 'sat') {
+                    if (window._bdMap.setMapType) window._bdMap.setMapType(BMAP_EARTH_MAP);
+                } else {
+                    if (window._bdMap.setMapType) window._bdMap.setMapType(BMAP_NORMAL_MAP);
+                }
+                document.getElementById('baiduMapContainer').style.display = 'block';
+                map.on('moveend', syncBaiduView);
+                return true;
+            } catch (e) {
+                const s = document.getElementById('map-status'); if (s) s.textContent = '百度API初始化失败，已使用备用瓦片';
+                return false;
+            }
+        }
+        function syncBaiduView() {
+            if (!window._bdMap) return;
+            const c = map.getCenter();
+            const z = map.getZoom();
+            window._bdMap.centerAndZoom(new BMapGL.Point(c.lng, c.lat), z);
+        }
+        function disableBaiduMap() {
+            const el = document.getElementById('baiduMapContainer');
+            if (el) el.style.display = 'none';
+            map.off('moveend', syncBaiduView);
+        }
+        // 已移除外链打开，百度图层在页面内直接查看
+        setMapStyle('sat');
 
         // Custom Icons
         const redMarkerIcon = L.divIcon({
@@ -3487,9 +3641,41 @@
          let waypointLayerGroup = L.layerGroup().addTo(map);
          let monitorLayerGroup = L.layerGroup().addTo(map);
          let monitorLocationsLayerGroup = L.layerGroup().addTo(map);
+         let nfzLayerGroup = L.layerGroup().addTo(map);
+         let boundaryLayerGroup = L.layerGroup().addTo(map);
          let isPickingMode = false;
          let currentTargetLat = 24.0589;
          let currentTargetLng = 120.4333;
+ 
+         const nfzZones = [
+             { name: '禁飞区A·南海', reason: '政治敏感区域', color: '#ef4444', coords: [
+                 [16.6, 111.0], [16.2, 112.2], [17.4, 113.1], [18.0, 112.4], [17.6, 111.2]
+             ]},
+             { name: '禁飞区B·东海', reason: '军事演习', color: '#f59e0b', coords: [
+                 [28.3, 122.0], [27.9, 123.2], [28.7, 124.4], [30.1, 124.0], [29.5, 122.6]
+             ]}
+         ];
+         nfzZones.forEach(z => {
+             const poly = L.polygon(z.coords, { color: z.color, weight: 1.5, fillColor: z.color, fillOpacity: 0.2 }).addTo(nfzLayerGroup);
+             const coordLines = z.coords.map(p => `${p[0].toFixed(4)}°N, ${p[1].toFixed(4)}°E`).join('<br/>');
+             const centerLat = z.coords.reduce((a, c) => a + c[0], 0) / z.coords.length;
+             const centerLng = z.coords.reduce((a, c) => a + c[1], 0) / z.coords.length;
+             const centerLine = `${centerLat.toFixed(4)}°N, ${centerLng.toFixed(4)}°E`;
+             const reasonColor = (String(z.reason).includes('演习')) ? '#f59e0b' : (String(z.reason).includes('政治')) ? '#ef4444' : '#3b82f6';
+             const tipHtml = ''
+                 + '<div style="font-size:12px; color:#e2e8f0; line-height:1.6;">'
+                 +   '<div style="font-size:13px; color:#ffffff; font-weight:700; margin-bottom:4px;">' + z.name + '</div>'
+                 +   '<div style="display:flex; align-items:center; gap:8px; margin-bottom:6px;">'
+                 +       '<span style="display:inline-block; background:' + reasonColor + '; color:#0b1220; padding:2px 8px; border-radius:999px; font-size:11px; font-weight:700;">' + z.reason + '</span>'
+                 +       '<span style="font-size:11px; color:#94a3b8;">中心点：' + centerLine + '</span>'
+                 +   '</div>'
+                 +   '<div style="font-size:11px; color:#94a3b8; margin-bottom:2px;">顶点坐标</div>'
+                 +   '<div style="max-height:120px; overflow:auto; white-space:nowrap; font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, \'Liberation Mono\', \'Courier New\', monospace;">' + coordLines + '</div>'
+                 + '</div>';
+             poly.bindTooltip(tipHtml, { direction: 'top', sticky: true, opacity: 1, className: 'nfz-tooltip' });
+         });
+ 
+         loadChinaBoundary();
 
          // UAV Base Locations (Approximate for demo)
          const uavBases = {
