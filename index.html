@@ -799,7 +799,7 @@
     <header class="main-header">
         <div class="brand">
             <!-- <div class="logo-icon"><img src="images/logo.png" alt="Logo" style="height: 20px;"></div>  -->
-            <span class="brand-text"> | zz情报快判AI系统</span>
+            <span class="brand-text"> | ZZ情报快判AI系统</span>
         </div>
         <div class="user-profile">
             <div class="avatar">Z</div>
@@ -824,7 +824,16 @@
 
     <div class="map-container">
         <!-- Leaflet Map Container -->
-        <div id="map" style="width: 100%; height: 100%; background: #0f172a; z-index: 1;"></div>
+            <div id="map" style="width: 100%; height: 100%; background: #0f172a; z-index: 1;"></div>
+            <div id="bottom-nav" style="position:absolute; left:0; right:0; bottom:0; height:46px; z-index:1002; display:flex; align-items:center; justify-content:space-between; padding:0 16px; background: rgba(15,23,42,0.95); border-top: 1px solid #475569;">
+                <div id="map-style-controls" style="display:flex; gap:6px;">
+                    <button id="btn-style-road" onclick="setMapStyle('road')" style="background:#334155; color:white; border:1px solid #475569; border-radius:4px; padding:6px 10px; font-size:12px; cursor:pointer;">道路</button>
+                    <button id="btn-style-sat" onclick="setMapStyle('sat')" style="background:#334155; color:white; border:1px solid #475569; border-radius:4px; padding:6px 10px; font-size:12px; cursor:pointer;">卫星</button>
+                    <button id="btn-style-hybrid" onclick="setMapStyle('hybrid')" style="background:#3b82f6; color:white; border:1px solid #60a5fa; border-radius:4px; padding:6px 10px; font-size:12px; cursor:pointer;">混合</button>
+                    <button id="btn-style-terrain" onclick="setMapStyle('terrain')" style="background:#334155; color:white; border:1px solid #475569; border-radius:4px; padding:6px 10px; font-size:12px; cursor:pointer;">地形</button>
+                </div>
+                <div style="display:flex; align-items:center; gap:10px; color:#cbd5e1; font-size:12px;"><span id="map-status"></span></div>
+            </div>
         
         <!-- Overlay Monitoring Panel -->
         <div class="monitor-overlay-panel">
@@ -1421,7 +1430,7 @@
                     </div>
                     <div class="detail-section">
                         <div class="map-placeholder">
-                            <iframe id="map-frame" src="https://maps.google.com/maps?q=24.051,120.542&t=h&z=12&ie=UTF8&iwloc=&output=embed" width="100%" height="100%" style="border:0; position: absolute; top: 0; left: 0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                            <iframe id="map-frame" src="https://maps.google.com/maps?hl=zh-CN&q=24.051,120.542&t=h&z=12&ie=UTF8&iwloc=&output=embed" width="100%" height="100%" style="border:0; position: absolute; top: 0; left: 0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
                             <div class="map-controls-group">
                                 <button class="map-btn-toggle active" id="btn-sat" onclick="toggleLayer('sat')"><i class="fa-solid fa-satellite"></i> 卫星影像</button>
                                 <button class="map-btn-toggle" id="btn-road" onclick="toggleLayer('road')"><i class="fa-solid fa-road"></i> 道路网</button>
@@ -1885,7 +1894,7 @@
             let simStart = { lat: 24.25, lng: 118.10 };
             let simTarget = { lat: 25.260555, lng: 125.003055 };
             const iframe = document.createElement('iframe');
-            iframe.src = 'https://www.google.com/maps?q=' + simTarget.lat + ',' + simTarget.lng + '&z=6&output=embed';
+            iframe.src = 'https://www.google.com/maps?hl=zh-CN&q=' + simTarget.lat + ',' + simTarget.lng + '&z=6&output=embed';
             mapWrap.appendChild(iframe);
             const dot = document.createElement('div');
             dot.className = 'sim-route-dot';
@@ -2158,7 +2167,7 @@
             const mapWrap = document.createElement('div');
             mapWrap.className = 'sim-map-wrap';
             const iframe = document.createElement('iframe');
-            iframe.src = 'https://www.google.com/maps?q=25.260555,125.003055&z=6&output=embed';
+            iframe.src = 'https://www.google.com/maps?hl=zh-CN&q=25.260555,125.003055&z=6&output=embed';
             mapWrap.appendChild(iframe);
             const dot = document.createElement('div');
             dot.className = 'sim-route-dot';
@@ -2226,7 +2235,7 @@
                     summary: '据多源情报综合分析，TW西部ZHX地区出现异常军事调动，进入二级战备状态。监测到大量军用车辆集结，无线电通信频率激增。初步研判为针对近期海上演习的防御性部署，但不排除升级可能。建议加强该区域的持续监控，重点关注沿海雷达站及防空导弹阵地的动态。',
                     tags: ['军事调动','战备升级','ZHX'],
                     images: ['1.png','2.png','3.png','4.png'],
-                    mapSrc: 'https://maps.google.com/maps?q=24.051,120.542&t=h&z=12&ie=UTF8&iwloc=&output=embed',
+                    mapSrc: 'https://maps.google.com/maps?hl=zh-CN&q=24.051,120.542&t=h&z=12&ie=UTF8&iwloc=&output=embed',
                     coords: 'E 120.542, N 24.051'
                 };
             } else if (title === '日本西南岛屿军事演练，介入台海威胁加剧') {
@@ -2240,7 +2249,7 @@
                     summary: '日本自卫队在西南诸岛海域举行大规模两栖登陆演习，美军部分舰艇参与协同。此举严重加剧台海周边紧张局势，意在展示介入能力。多源情报显示演习区域存在异常电磁信号活动。',
                     tags: ['军事演习','西南诸岛','联合行动'],
                     images: ['1.png','5.png','7.png','8.png'],
-                    mapSrc: 'https://maps.google.com/maps?q=26.212,127.680&t=h&z=9&ie=UTF8&iwloc=&output=embed',
+                    mapSrc: 'https://maps.google.com/maps?hl=zh-CN&q=26.212,127.680&t=h&z=9&ie=UTF8&iwloc=&output=embed',
                     coords: 'E 127.680, N 26.212',
                     sourceRaw:
                         '<div class="trace-raw-item"><span><i class="fa-solid fa-satellite blue-icon"></i> WorldView-3_20251122_009</span><span class="raw-tag">影像</span></div>'+
@@ -2353,7 +2362,7 @@
                     summary: '东部战区监测到两艘美国军舰在冲绳岛附近海域（25°15\'38\"N 125°00\'11\"E）后，沿既定航路过航TW海峡。综合无人机与卫星影像识别，目标为“鲍迪奇”号海洋测量船与拉尔夫·约翰逊号驱逐舰。当前评估为高等威胁，建议加强海空联合监视与战备部署。',
                     tags: ['美国军舰','台海过航','战备提升'],
                     images: ['实时监控3.png','船.png'],
-                    mapSrc: 'https://maps.google.com/maps?q=24.8242,125.0264&t=h&z=9&ie=UTF8&iwloc=&output=embed',
+                    mapSrc: 'https://maps.google.com/maps?hl=zh-CN&q=24.8242,125.0264&t=h&z=9&ie=UTF8&iwloc=&output=embed',
                     coords: 'E 125.0264, N 24.8242',
                     sourceRaw:
                         '<div class="trace-raw-item"><span><i class="fa-solid fa-satellite blue-icon"></i> IGSO_SAR_20251123_021</span><span class="raw-tag">影像</span></div>'+
@@ -2520,18 +2529,32 @@
         }
 
         function confirmPlan() {
-            // Set target coords to current ship focus or default
             const targetInput = document.getElementById('target-coords');
             if (shipFocusLat && shipFocusLng) {
-                targetInput.value = `${shipFocusLat.toFixed(4)}°N, ${shipFocusLng.toFixed(4)}°E`;
-                // Update internal target vars if present
+                let lat = shipFocusLat, lng = shipFocusLng;
+                if (window._shipVectorDeg) {
+                    const dxDeg = window._shipVectorDeg.dx;
+                    const dyDeg = window._shipVectorDeg.dy;
+                    const kmLat = 111.32;
+                    const kmLon = 111.32 * Math.cos(lat * Math.PI / 180);
+                    const vxKm = dxDeg * kmLat;
+                    const vyKm = dyDeg * kmLon;
+                    const magKm = Math.sqrt(vxKm * vxKm + vyKm * vyKm);
+                    if (magKm > 0) {
+                        const scale = 40 / magKm;
+                        const dLat = dxDeg * scale;
+                        const dLng = dyDeg * scale;
+                        lat = lat + dLat;
+                        lng = lng + dLng;
+                    }
+                }
+                targetInput.value = `${lat.toFixed(4)}°N, ${lng.toFixed(4)}°E`;
                 if (typeof currentTargetLat !== 'undefined') {
-                    currentTargetLat = shipFocusLat;
-                    currentTargetLng = shipFocusLng;
+                    currentTargetLat = lat;
+                    currentTargetLng = lng;
                 }
             }
 
-            // Visualize target selection: marker + 15km detection circle
             if (typeof selectionLayerGroup !== 'undefined') {
                 selectionLayerGroup.clearLayers();
                 flightPathLayerGroup.clearLayers();
@@ -2549,7 +2572,6 @@
                 }
             }
 
-            // Auto select CH-4 彩虹 (ID: 701)
             const ch4Opt = document.getElementById('opt-uav-01');
             if (ch4Opt) {
                 selectUav(ch4Opt, 'uav-01');
@@ -2557,14 +2579,12 @@
 
             if (typeof recalcUavRouteStats === 'function') recalcUavRouteStats();
 
-            // Mark chosen plan as selected
             if (window._currentPlanId) {
                 document.querySelectorAll('#solutionCard .uav-option').forEach(opt => opt.classList.remove('selected'));
                 const chosen = document.getElementById('opt-' + window._currentPlanId);
                 if (chosen) chosen.classList.add('selected');
             }
 
-            // Close modal
             closePlanDetail();
         }
 
@@ -2637,6 +2657,45 @@
                 costBadge.className = 'recommend-badge rec-cost';
                 costBadge.style.display = 'inline-block';
             }
+        }
+        function setShipDestination(lat, lng) {
+            window._shipDestLat = lat;
+            window._shipDestLng = lng;
+            startShipMovement();
+        }
+        function startShipMovement() {
+            if (window._shipMoveTimer) { clearInterval(window._shipMoveTimer); window._shipMoveTimer = null; }
+            const stepKm = window._shipStepKm || 5;
+            const moveInterval = window._shipMoveInterval || 1000;
+            window._shipMoveTimer = setInterval(() => {
+                if (!window.ship1Marker || !window.ship2Marker || typeof window._shipDestLat === 'undefined') return;
+                const p1 = window.ship1Marker.getLatLng();
+                const p2 = window.ship2Marker.getLatLng();
+                const destLat = window._shipDestLat, destLng = window._shipDestLng;
+                const dLat = destLat - p1.lat;
+                const dLng = destLng - p1.lng;
+                const kmLat = 111.32;
+                const kmLon = 111.32 * Math.cos(p1.lat * Math.PI / 180);
+                const dxKm = dLat * kmLat;
+                const dyKm = dLng * kmLon;
+                const distKm = Math.sqrt(dxKm * dxKm + dyKm * dyKm);
+                if (distKm <= stepKm) {
+                    window.ship1Marker.setLatLng([destLat, destLng]);
+                    window.ship2Marker.setLatLng([destLat, destLng]);
+                    window.shipFocusLat = destLat;
+                    window.shipFocusLng = destLng;
+                    clearInterval(window._shipMoveTimer);
+                    window._shipMoveTimer = null;
+                    return;
+                }
+                const scale = stepKm / distKm;
+                const stepLat = dLat * scale;
+                const stepLng = dLng * scale;
+                window.ship1Marker.setLatLng([p1.lat + stepLat, p1.lng + stepLng]);
+                window.ship2Marker.setLatLng([p2.lat + stepLat, p2.lng + stepLng]);
+                window.shipFocusLat = (window.ship1Marker.getLatLng().lat);
+                window.shipFocusLng = (window.ship1Marker.getLatLng().lng);
+            }, moveInterval);
         }
         // Show Intel Popup on Load
         window.addEventListener('load', () => {
@@ -3117,9 +3176,16 @@
                     _dispatchTimer = null;
                     if (_dispatchRangeCircle) { map.removeLayer(_dispatchRangeCircle); _dispatchRangeCircle = null; }
                     L.circle([currentTargetLat, currentTargetLng], { radius: 800, color: '#10b981', fillColor: '#10b981', fillOpacity: 0.1, weight: 2, dashArray: '4,6' }).addTo(selectionLayerGroup);
+                    if (window._shipMoveTimer) { clearInterval(window._shipMoveTimer); window._shipMoveTimer = null; }
+                    window._shipFreezeAfterUavArrival = true;
+                    window._shipDestLat = undefined;
+                    window._shipDestLng = undefined;
                     setTimeout(() => { showUavReturnIntel(); }, 500);
                 }
             }, interval);
+            window._shipStepKm = 0.9;
+            window._shipMoveInterval = 1000;
+            if (typeof setShipDestination === 'function') setShipDestination(currentTargetLat, currentTargetLng);
         }
 
         function showUavReturnIntel() {
@@ -3188,7 +3254,7 @@
             if (badge) badge.textContent = intelData.length + '条';
             const solutionCard = document.getElementById('solutionCard');
             if (solutionCard) solutionCard.style.display = 'flex';
-            if (window.ship1Marker && window.ship2Marker && window._shipVectorDeg) {
+            if (!window._shipFreezeAfterUavArrival && window.ship1Marker && window.ship2Marker && window._shipVectorDeg) {
                 const moveKm = 15;
                 const lat = window.ship1Marker.getLatLng().lat;
                 const dxDeg = window._shipVectorDeg.dx;
@@ -3244,7 +3310,7 @@
                 dimEl.textContent = '长 155.3 m · 宽 20.1 m';
                 speedEl.textContent = '30+ 节';
                 equipEl.textContent = 'VLS(96) · SM-2/SM-6 · Tomahawk · ASROC · 127mm主炮 · CIWS · SPY-1D(V)';
-                if (extraEl) extraEl.innerHTML = '<div style="font-weight:bold;color:#60a5fa;">基本信息</div><div>舷号：DDG-114；母港：日本横须贺（第七舰队）</div><div>命名来源：越战荣誉勋章获得者 Ralph H. Johnson</div><div style="margin-top:8px;font-weight:bold;color:#60a5fa;">技术参数</div><div>吃水：9.3 m；续航力：4200 海里@20节；乘员：军官22，士官兵308</div><div>动力：四台LM-2500-30燃气涡轮机，总功率约10万马力，双轴CRP双舵</div><div style="margin-top:8px;font-weight:bold;color:#60a5fa;">电子/作战系统</div><div>主雷达：AN/SPY-1D(V)；辅雷达：AN/SPS-67(V)3、AN/SPS-64(V)9</div><div>火控：AN/SPG-62×3；声纳：AN/SQS-53C、AN/SQR-19</div><div>电子战：AN/SLQ-32(V)3、MK-36干扰弹、AN/SLQ-25、Prairie Masker</div><div>作战系统：宙斯盾（Aegis）</div><div style="margin-top:8px;font-weight:bold;color:#60a5fa;">武器装备</div><div>127mm MK-45×1；MK-41 VLS（96单元）；鱼叉×8；CIWS×2；MK-38×2；12.7mm机枪×4；MK-32鱼雷×2</div><div style="margin-top:8px;font-weight:bold;color:#60a5fa;">行动经历</div><div>2019：第5舰队防空与海上威慑巡逻</div><div>2022–2024：南海“航行自由行动”、多国联合演练</div>';
+                if (extraEl) extraEl.innerHTML = '<div style="font-weight:bold;color:#60a5fa;">基本信息</div><div>舷号：DDG-114；母港：日本横须贺（第七舰队）</div><div>命名来源：越战荣誉勋章获得者 Ralph H. Johnson</div><div style="margin-top:8px;font-weight:bold;color:#60a5fa;">技术参数</div><div>吃水：9.3 m；续航力：4200 海里@20节；乘员：军官22，士官兵308</div><div>动力：四台LM-2500-30燃气涡轮机，总功率约10万马力，双轴CRP双舵</div><div style="margin-top:8px;font-weight:bold;color:#60a5fa;">电子/作战系统</div><div>主雷达：AN/SPY-1D(V)；辅雷达：AN/SPS-67(V)3、AN/SPS-64(V)9</div><div>火控：AN/SPG-62×3；声纳：AN/SQS-53C、AN/SQR-19</div><div>电子战：AN/SLQ-32(V)3、MK-36干扰弹、AN/SLQ-25、Prairie Masker</div><div>作战系统：宙斯盾（Aegis）</div><div style="margin-top:8px;font-weight:bold;color:#60a5fa;">武器装备</div><div>127mm MK-45×1；MK-41 VLS（96单元）；鱼叉×8；CIWS×2；MK-38×2；12.7mm机枪×4；MK-32鱼雷×2</div><div style="margin-top:8px;font-weight:bold;color:#60a5fa;">任务履历</div><div>2019：第5舰队防空与海上威慑巡逻</div><div>2022–2024：南海“航行自由行动”、多国联合演练</div>';
             } else {
                 titleEl.textContent = '目标 B · T-AGS 62';
                 nameEl.textContent = 'USNS Bowditch (T-AGS 62)';
@@ -3282,7 +3348,7 @@
                     '<div>作战系统：宙斯盾（Aegis）</div>'+
                     '<div style="margin:12px 0;color:#60a5fa;font-weight:bold;">武器装备</div>'+
                     '<div>127mm MK-45×1；MK-41 VLS（96单元）；鱼叉×8；CIWS×2；MK-38×2；12.7mm机枪×4；MK-32鱼雷×2</div>'+
-                    '<div style="margin:12px 0;color:#60a5fa;font-weight:bold;">行动经历</div>'+
+                    '<div style="margin:12px 0;color:#60a5fa;font-weight:bold;">任务履历</div>'+
                     '<div>2019：第5舰队防空与海上威慑巡逻；2022–2024：南海“航行自由行动”、多国联合演练</div>'+
                     '<div>2024–2025：多次穿越台海，与T-AGS 62协同收集水文与声学数据</div>';
             } else {
@@ -3317,13 +3383,80 @@
             attributionControl: false
         });
 
-        // Add Esri Satellite Layer
-        L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
-            maxZoom: 19
-        }).addTo(map);
-
-        // Add Labels Layer (Reference)
-        L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Reference/World_Boundaries_and_Places/MapServer/tile/{z}/{y}/{x}').addTo(map);
+        // Chinese Base Layers
+        const layerRoadCN = L.tileLayer('https://mt{s}.google.cn/vt/lyrs=m&x={x}&y={y}&z={z}', { subdomains: '0123', maxZoom: 19 });
+        const layerSatCN = L.tileLayer('https://mt{s}.google.cn/vt/lyrs=s&x={x}&y={y}&z={z}', { subdomains: '0123', maxZoom: 19 });
+        const layerHybridCN = L.tileLayer('https://mt{s}.google.cn/vt/lyrs=y&x={x}&y={y}&z={z}', { subdomains: '0123', maxZoom: 19 });
+        const layerTerrainCN = L.tileLayer('https://mt{s}.google.cn/vt/lyrs=p&x={x}&y={y}&z={z}', { subdomains: '0123', maxZoom: 19 });
+        // Global fallbacks
+        const layerOSM = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { subdomains: 'abc', maxZoom: 19 });
+        const layerEsri = L.tileLayer('https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', { maxZoom: 19 });
+        function applyBaseLayers(layers) {
+            if (Array.isArray(window._mapBaseLayers)) {
+                window._mapBaseLayers.forEach(l => map.removeLayer(l));
+            }
+            layers.forEach(l => l.addTo(map));
+            window._mapBaseLayers = layers;
+        }
+        applyBaseLayers([layerHybridCN]);
+        function setMapStyle(style) {
+            const btns = {
+                road: document.getElementById('btn-style-road'),
+                sat: document.getElementById('btn-style-sat'),
+                hybrid: document.getElementById('btn-style-hybrid'),
+                terrain: document.getElementById('btn-style-terrain')
+            };
+            Object.values(btns).forEach(b => { if (b) { b.style.background = '#334155'; b.style.border = '1px solid #475569'; } });
+            if (style === 'road') {
+                applyBaseLayers([layerRoadCN]);
+                if (btns.road) { btns.road.style.background = '#3b82f6'; btns.road.style.border = '1px solid #60a5fa'; }
+                const s = document.getElementById('map-status'); if (s) s.textContent = '已切换至道路图层';
+                const active = window._mapBaseLayers && window._mapBaseLayers[0]; 
+                if (active) { 
+                    if (active.off) active.off('tileerror'); 
+                    active.on('tileerror', function() { 
+                        applyBaseLayers([layerOSM]); 
+                        const s2 = document.getElementById('map-status'); if (s2) s2.textContent = '道路图层加载失败，已切换至OSM'; 
+                    }); 
+                }
+            } else if (style === 'sat') {
+                applyBaseLayers([layerSatCN]);
+                if (btns.sat) { btns.sat.style.background = '#3b82f6'; btns.sat.style.border = '1px solid #60a5fa'; }
+                const s = document.getElementById('map-status'); if (s) s.textContent = '已切换至卫星图层';
+                const active = window._mapBaseLayers && window._mapBaseLayers[0]; 
+                if (active) { 
+                    if (active.off) active.off('tileerror'); 
+                    active.on('tileerror', function() { 
+                        applyBaseLayers([layerEsri]); 
+                        const s2 = document.getElementById('map-status'); if (s2) s2.textContent = '卫星图层加载失败，已切换至ESRI卫星'; 
+                    }); 
+                }
+            } else if (style === 'terrain') {
+                applyBaseLayers([layerTerrainCN]);
+                if (btns.terrain) { btns.terrain.style.background = '#3b82f6'; btns.terrain.style.border = '1px solid #60a5fa'; }
+                const s = document.getElementById('map-status'); if (s) s.textContent = '已切换至地形图层';
+                const active = window._mapBaseLayers && window._mapBaseLayers[0]; 
+                if (active) { 
+                    if (active.off) active.off('tileerror'); 
+                    active.on('tileerror', function() { 
+                        setMapStyle('road'); 
+                        const s2 = document.getElementById('map-status'); if (s2) s2.textContent = '地形图层加载失败，已切换至道路'; 
+                    }); 
+                }
+            } else {
+                applyBaseLayers([layerHybridCN]);
+                if (btns.hybrid) { btns.hybrid.style.background = '#3b82f6'; btns.hybrid.style.border = '1px solid #60a5fa'; }
+                const s = document.getElementById('map-status'); if (s) s.textContent = '已切换至混合图层';
+                const active = window._mapBaseLayers && window._mapBaseLayers[0]; 
+                if (active) { 
+                    if (active.off) active.off('tileerror'); 
+                    active.on('tileerror', function() { 
+                        applyBaseLayers([layerEsri]); 
+                        const s2 = document.getElementById('map-status'); if (s2) s2.textContent = '混合图层加载失败，已切换至ESRI卫星'; 
+                    }); 
+                }
+            }
+        }
 
         // Custom Icons
         const redMarkerIcon = L.divIcon({
@@ -3778,4 +3911,3 @@
         }
         document.addEventListener('DOMContentLoaded', renderMonitorSelectors);
     </script>
-
